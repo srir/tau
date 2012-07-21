@@ -2,6 +2,7 @@ var application_root = __dirname,
   express   = require('express'),
   passport  = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
+  flash = require('connect-flash'),
   mongoose  = require('mongoose'),
   cons      = require('consolidate'),
   path      = require('path'),
@@ -28,7 +29,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function (err, user) {
+  models.User.findById(id, function (err, user) {
     done(err, user);
   });
 });
@@ -44,6 +45,7 @@ app.configure(function(){
   app.use(express.session({ secret: 'watman' }));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(flash());
   app.use(app.router);
   app.use(express.static(path.join(application_root, "public")));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -54,6 +56,7 @@ app.configure(function(){
 
 app.get('/', function(req, res) {
   models.User.find(function(err, users) {
+    console.log(users);
     res.render('index', {
       title: "TAU HERPDERP",
       users: users
@@ -62,24 +65,37 @@ app.get('/', function(req, res) {
 });
 
 app.get('/login', function(req, res){
-  res.send("DUDE log in");
-//  res.render('login', { user: req.user, message: req.flash('error') });
+    var data = { title: "Tau login",
+                 user: req.user,
+                 message: req.flash('error')
+               };
+  res.render('login', data);
 });
 
-app.post('/login', passport.authenticate('local', { failureRedirect: '/login'}),
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login',
+                                                    failureFlash: true}),
   function (req, res) {
-    res.send("authenticated");
+    // var data = { title: "Tau login",
+    //              user: req.user,
+    //              message: req.flash('error')
+    //            };
+    // res.render('account', data);
+    res.redirect('/account');
 });
 
 
 app.get('/account', ensureAuthenticated, function(req, res) {
-  res.send("GAMEify.");
+    var data = { title: "Tau account",
+                 user: req.user,
+               }
+  res.render('account', data);
 });
 
-
 app.get('/logout', function(req, res){
+  var data = { title: "Tau logout",
+               }
   req.logout();
-  res.redirect('/');
+  res.render('logout', data);
 });
 
 //login decorators
