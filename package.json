@@ -1,0 +1,9 @@
+{
+  "name": "tau",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "3.0.0beta7",
+        "mongoose": "2.7.2",
+        "node-static": "0.6.0"
+    }
+}
