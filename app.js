@@ -9,11 +9,15 @@ var application_root = __dirname,
 
 var port = 3000;
 
-
+// var drl = new models.User();
+// drl.username = "Dr. Dan";
+// drl.email = "drl@cs.cmu.edu";
+// drl.password = "root";
+// drl.save(function (err) { console.log(err); });
 
 passport.use(new LocalStrategy(
   function(email, password, done) {
-    User.findOne({ email: email, password: password }, function (err, user) {
+    models.User.findOne({ email: email, password: password }, function (err, user) {
       done(err, user);
     });
   }
@@ -38,11 +42,11 @@ app.configure(function(){
   // the bodyParser middleware parses JSON request bodies
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(app.router);
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'watman' }));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(app.router);
   app.use(express.static(path.join(application_root, "public")));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.set('views', path.join(application_root, "views"));
@@ -55,5 +59,33 @@ app.get('/', function(req, res) {
   });
 });
 
+app.get('/login', function(req, res){
+  res.send("DUDE log in");
+//  res.render('login', { user: req.user, message: req.flash('error') });
+});
+app.post('/login', passport.authenticate('local',
+                                         { failureRedirect: '/login'}),
+         function (req, res) {
+             res.send("authenticated");
+});
+
+
+app.get('/account', ensureAuthenticated, function(req, res) {
+  res.send("GAMEify.");
+});
+
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
 console.log("Listening on port " + port);
 app.listen(port);
+
+
+//login decorators
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login')
+}
