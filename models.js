@@ -15,7 +15,7 @@ module.exports = function (mongoose) {
 
   var CommentSchema = new Schema({
     text:       String,
-    user:       UserSchema,
+    user:       { type: ObjectId, ref: 'UserSchema' } ,
     timestamp:  Date,
     startLine:  Number,
     startChar:  Number,
@@ -28,23 +28,23 @@ module.exports = function (mongoose) {
     name:       String,
     text:       String,
     timestamp:  Date,
-    comments:   [CommentSchema]
+    comments:   [{ type: ObjectId, ref: 'CommentSchema' }]
   });
   models.File = mongoose.model('File', FileSchema);
 
   var CourseSchema = new Schema({
     name:         String,
-    staff:        [UserSchema],
-    students:     [UserSchema],
+    staff:        [{ type: ObjectId, ref: 'UserSchema' }],
+    students:     [{ type: ObjectId, ref: 'UserSchema' }],
     assignments:  [String]
   });
   models.Course = mongoose.model('Course', CourseSchema);
 
   var HandinSchema = new Schema({
     assignment: String,
-    course:     CourseSchema,
-    user:       UserSchema,
-    files:      [FileSchema]
+    course:     { type: ObjectId, ref: 'CourseSchema' },
+    user:       { type: ObjectId, ref: 'UserSchema' },
+    files:      [{ type: ObjectId, ref: 'FileSchema' }]
   });
   models.Handin = mongoose.model('Handin', HandinSchema);
 
