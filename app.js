@@ -1,5 +1,7 @@
 var application_root = __dirname,
   express   = require('express'),
+  passport  = require('passport'),
+  LocalStrategy = require('passport-local').Strategy,
   mongoose  = require('mongoose'),
   mustache  = require('mustache'),
   path      = require('path'),
@@ -15,6 +17,9 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
+  app.use(express.session({ secret: 'watman' }));
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use(express.static(path.join(application_root, "public")));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.set('views', path.join(application_root, "views"));
