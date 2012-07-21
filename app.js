@@ -6,7 +6,7 @@ var application_root = __dirname,
   mongoose      = require('mongoose'),
   cons          = require('consolidate'),
   path          = require('path'),
-  models        = require('./models')(mongoose);
+  models        = require('./models');
 
 require('./viewUtil');
 
