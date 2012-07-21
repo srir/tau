@@ -1,14 +1,14 @@
 var application_root = __dirname,
-  express   = require('express'),
-  passport  = require('passport'),
+  express       = require('express'),
+  passport      = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
-  flash = require('connect-flash'),
-  mongoose  = require('mongoose'),
-  cons      = require('consolidate'),
-  path      = require('path'),
-  models    = require('./models')(mongoose);
+  flash         = require('connect-flash'),
+  mongoose      = require('mongoose'),
+  cons          = require('consolidate'),
+  path          = require('path'),
+  models        = require('./models')(mongoose);
 
-var port = 3000;
+require('./viewUtil');
 
 // var drl = new models.User();
 // drl.username = "Dr. Dan";
@@ -64,6 +64,10 @@ app.get('/', function(req, res) {
   });
 });
 
+app.get('/review', function(req, res) {
+  res.render('review');
+})
+
 app.get('/login', function(req, res){
     var data = { title: "Tau login",
                  user: req.user,
@@ -101,9 +105,9 @@ app.get('/logout', function(req, res){
 //login decorators
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
+  res.redirect('/login');
 }
 
-app.listen(port, function() {
+app.listen(3000, function() {
   console.log("App listening on port %d in %s mode", 3000, app.settings.env);
 });
