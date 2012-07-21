@@ -1,13 +1,13 @@
 var application_root = __dirname,
-  express   = require('express'),
-  passport  = require('passport'),
+  express       = require('express'),
+  passport      = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
-  mongoose  = require('mongoose'),
-  cons      = require('consolidate'),
-  path      = require('path'),
-  models    = require('./models')(mongoose);
+  mongoose      = require('mongoose'),
+  cons          = require('consolidate'),
+  path          = require('path'),
+  models        = require('./models');
 
-var port = 3000;
+require('./viewUtil');
 
 // var drl = new models.User();
 // drl.username = "Dr. Dan";
@@ -56,6 +56,10 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+app.get('/review', function(req, res) {
+  res.render('review');
+})
+
 app.get('/login', function(req, res){
   res.send("DUDE log in");
 //  res.render('login', { user: req.user, message: req.flash('error') });
@@ -71,7 +75,6 @@ app.get('/account', ensureAuthenticated, function(req, res) {
   res.send("GAMEify.");
 });
 
-
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
@@ -80,9 +83,9 @@ app.get('/logout', function(req, res){
 //login decorators
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
+  res.redirect('/login');
 }
 
-app.listen(port, function() {
+app.listen(3000, function() {
   console.log("App listening on port %d in %s mode", 3000, app.settings.env);
 });

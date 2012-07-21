@@ -1,4 +1,5 @@
-module.exports = function (mongoose) {
+module.exports = (function () {
+  var mongoose = require('mongoose');
   var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId,
     models = {};
@@ -49,4 +50,4 @@ module.exports = function (mongoose) {
   models.Handin = mongoose.model('Handin', HandinSchema);
 
   return models;
-};
+})();
