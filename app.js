@@ -53,12 +53,7 @@ app.configure(function(){
 });
 
 app.get('/', function(req, res) {
-  models.User.find(function(err, users) {
-    res.render('index', {
-      title: "TAU HERPDERP",
-      users: users
-    })
-  });
+  res.render('index');
 });
 
 app.get('/login', function(req, res){
