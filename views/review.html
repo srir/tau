@@ -3,6 +3,8 @@
       <div class="filepath">
         <a href="/{{course.slug}}">{{course.slug}}</a>/<a href="/{{course.slug}}/{{assn.slug}}">{{assn.slug}}</a>/{{file.name}}
       </div>
+      <a href="#" class="expandAll">expand all</a>
+      <a href="#" class="collapseAll">collapse all</a>
     </div>
     <dl id="code" data-user-name="{{user.name}}" data-user-id="{{user._id}}" data-file-id="{{file.id}}">
       {{{file.contents}}}
@@ -20,6 +22,7 @@
         <div class="commentBody">
           <%= comment %>
         </div>
+        <a href="#" class="commentReply">Reply</a>
       </div class="commentContainer">
       <a href="#" class="commentCollapse">-</a>
   </script>

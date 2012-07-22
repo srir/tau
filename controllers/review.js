@@ -42,8 +42,8 @@ module.exports = function(app) {
     _       = require('lodash'),
     async   = require('async'),
     errors  = require('express-errors');
-  app.get('/:courseid/:assnid/:fileid',
-function(req, res, next) {
+    mw      = require('../middleware');
+  app.get('/:courseid/:assnid/:fileid', mw.is_staff, function(req, res, next) {
       if(!req.isAuthenticated()) { res.redirect('/auth/login'); }
       else {
           var courseid = req.params.courseid,
@@ -58,9 +58,6 @@ function(req, res, next) {
       .exec(function (err, assn) {
         if (err) return next(new Error("Internal Server Error"));
         if (assn === null) return next(errors.NotFound);
-          console.log(assn.user);
-          console.log(req.user._id);
-          console.log(course.staff);
         if (!(auth.isAuthor(req.user, assn) || auth.isStaff(req.user, course))) {
             console.log("not the right student.");
             res.render('auth/no_permissions');

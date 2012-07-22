@@ -11,9 +11,12 @@ errors        = require('express-errors');
 var models      = require('./models'),
 authUtil      = require('./authUtil'),
 viewUtil      = require('./viewUtil'),
-
 app = express.createServer();
 mongoose.connect("mongodb://localhost/tau");
+
+var models      = require('./models'),
+  authUtil      = require('./authUtil'),
+  viewUtil      = require('./viewUtil');
 
 app.configure(function(){
   // the bodyParser middleware parses JSON request bodies
@@ -58,6 +61,7 @@ require('./controllers/misc')(app);
 
 errors.bind(app, { layout: false, logger: null });
 
-app.listen(3000, function() {
-  console.log("App listening on port %d in %s mode", 3000, app.settings.env);
+var port = process.env.PORT || 3000;
+app.listen(port, function() {
+  console.log("App listening on port %d in %s mode", port, app.settings.env);
 });
