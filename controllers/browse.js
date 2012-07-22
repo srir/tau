@@ -20,14 +20,12 @@ module.exports = function(app) {
         });
       });
     })
-
-
   });
 
   app.get('/:courseid', function(req, res) {
     var courseid = req.params.courseid;
-    console.log("courseid: " + courseid);
     models.Course.findOne({ slug: courseid }, function(err, course) {
+      console.log("course: " + course);
       if (err) console.log(err);
       models.Assignment
       .where('slug').in(course.assignments)
