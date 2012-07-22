@@ -57,10 +57,13 @@ app.post('/dev/populate', function(req, res) {
         drl = new models.User(),
         rafee = new models.User(),
         assn09 = new models.Assignment(),
+        assn10 = new models.Assignment(),
         c15150 = new models.Course(),
+        c15122 = new models.Course(),
         fundict = new models.File(),
         serializable = new models.File(),
         ordered = new models.File();
+
     sri.name = "Sri";
     sri.password = "srivacuums";
     sri.email = "srikrish@andrew.cmu.edu";
@@ -83,23 +86,33 @@ app.post('/dev/populate', function(req, res) {
     c15150.staff.push(iev._id);
     c15150.staff.push(drl._id);
     c15150.students.push(sri._id);
+    c15150.students.push(rafee._id);
     c15150.save(function(err) {
         if(err) {console.log(err);}
     });
 
+    c15122.name = "15-122";
+    c15122.assignments.push("oh god");
+    c15122.staff.push(iev._id);
+    c15122.students.push(sri._id);
+    c15122.save(function(err) {
+        if(err) { console.log("ohshot");
+            console.log(err);}
+    });
+
     fundict.name = "fundict.sml";
     fundict.path =
-        application_root + "/data/handins/srikirsh/15150/assn09/fundict.sml";
+        application_root + "/data/handins/srikrish/15150/assn09/fundict.sml";
     fundict.timestamp = new Date();
     fundict.save(function(e) { if(e) {console.log(err);}});
     ordered.name = "ordered.sml";
     ordered.path =
-        application_root + "/data/handins/srikirsh/15150/assn09/ordered.sml";
+        application_root + "/data/handins/srikrish/15150/assn09/ordered.sml";
     ordered.timestamp = new Date();
     ordered.save(function(e) { if(e) {console.log(err);}});
     serializable.name = "serializable.sml";
     serializable.path =
-        application_root+"/data/handins/srikirsh/15150/assn09/serializable.sml";
+        application_root+"/data/handins/srikrish/15150/assn09/serializable.sml";
     serializable.timestamp = new Date();
     serializable.save(function(e) { if(e) {console.log(err);}});
 
@@ -111,8 +124,15 @@ app.post('/dev/populate', function(req, res) {
     assn09.files.push(serializable._id);
     assn09.save(function(e) { if(e) {console.log(err);}});
 
+    assn10.name = "oh god";
+    assn10.course = c15122._id;
+    assn10.user = sri._id;
+    assn10.save(function(e) { if(e) {console.log(err);}});
+
     sri.assignments.push(assn09._id);
+    sri.assignments.push(assn10._id);
     sri.save(function(e) { if(e) {console.log(err);}});
+
 
     res.send("OK");
 });
