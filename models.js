@@ -14,7 +14,7 @@ module.exports = (function () {
 
   var CommentSchema = new Schema({
     text:       { type: String, required: true },
-    user:       { type: ObjectId, ref: 'UserSchema', required: true } ,
+    user:       { type: ObjectId, ref: 'User', required: true } ,
     timestamp:  { type: Date, required: true },
     startLine:  { type: Number, required: true },
     startChar:  { type: Number, required: true },
@@ -27,23 +27,23 @@ module.exports = (function () {
     name:       { type: String, required: true },
     text:       { type: String, required: true },
     timestamp:  { type: Date, required: true },
-    comments:   [{ type: ObjectId, ref: 'CommentSchema' }]
+    comments:   [{ type: ObjectId, ref: 'Comment' }]
   });
   models.File = mongoose.model('File', FileSchema);
 
   var CourseSchema = new Schema({
     name:         { type: String, required: true },
-    staff:        [{ type: ObjectId, ref: 'UserSchema', required: true }],
-    students:     [{ type: ObjectId, ref: 'UserSchema' }],
+    staff:        [{ type: ObjectId, ref: 'User', required: true }],
+    students:     [{ type: ObjectId, ref: 'User' }],
     assignments:  [String]
   });
   models.Course = mongoose.model('Course', CourseSchema);
 
   var AssignmentSchema = new Schema({
     name:       { type: String, required: true },
-    course:     { type: ObjectId, ref: 'CourseSchema', required: true },
-    user:       { type: ObjectId, ref: 'UserSchema', required: true },
-    files:      [{ type: ObjectId, ref: 'FileSchema' }]
+    course:     { type: ObjectId, ref: 'Course', required: true },
+    user:       { type: ObjectId, ref: 'User', required: true },
+    files:      [{ type: ObjectId, ref: 'File' }]
   });
   models.Assignment = mongoose.model('Assignment', AssignmentSchema);
 
