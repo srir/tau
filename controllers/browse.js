@@ -45,7 +45,7 @@ module.exports = function(app) {
       .exec(function (err, assns) {
         if (err) return next(new Error("Internal Server Error"));
         if (assns === null) return next(errors.NotFound);
-        if(!(auth.isAuthor(req.user, assn[0]) || auth.isStaff(req.user, course))) {
+        if(!(auth.isStudent(req.user, course) || auth.isStaff(req.user, course))) {
             console.log("No permissions!");
             res.redirect('/auth/no_permissions');
         }

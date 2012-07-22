@@ -33,6 +33,13 @@ exports.isStaff = function (user, course) {
                      }).length > 0;
 };
 
+exports.isStudent = function (user, course) {
+    return  _.filter(course.students,
+                     function(e) {
+                         return e.toString() === user._id.toString();
+                     }).length > 0;
+};
+
 exports.isAuthor = function (user, assn) {
     return (user._id.toString() === assn.user.toString());
 };
