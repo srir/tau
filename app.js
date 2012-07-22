@@ -1,16 +1,16 @@
 var application_root  = __dirname,
-  express       = require('express'),
-  passport      = require('passport'),
-  LocalStrategy = require('passport-local').Strategy,
-  flash         = require('connect-flash'),
-  mongoose      = require('mongoose'),
-  cons          = require('consolidate'),
-  path          = require('path'),
-  errors        = require('express-errors');
+express       = require('express'),
+passport      = require('passport'),
+LocalStrategy = require('passport-local').Strategy,
+flash         = require('connect-flash'),
+mongoose      = require('mongoose'),
+cons          = require('consolidate'),
+path          = require('path'),
+errors        = require('express-errors');
 
 var models      = require('./models'),
-  authUtil      = require('./authUtil'),
-  viewUtil      = require('./viewUtil'),
+authUtil      = require('./authUtil'),
+viewUtil      = require('./viewUtil'),
 
 app = express.createServer();
 mongoose.connect("mongodb://localhost/tau");

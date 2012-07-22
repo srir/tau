@@ -22,6 +22,7 @@ module.exports = function(app) {
       res.send("deleted");
   });
 
+
   app.post('/dev/populate', function(req, res) {
       var sri = new models.User(),
           vsiao = new models.User(),
@@ -44,7 +45,7 @@ module.exports = function(app) {
           boruvkacomment = new models.Comment(),
           funcomment1 = new models.Comment(),
           funcomment2 = new models.Comment();
-      sri.name = "Sri";
+      sri.name = "James";
       sri.password = ".";
       sri.email = "srikrish@andrew.cmu.edu";
       sri.save(function(e) { if(e) {console.log(e);}});
