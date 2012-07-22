@@ -102,6 +102,7 @@ function(req, res, next) {
               });
             }, function(err, hydratedComments) {
               res.render('review', {
+                user:   req.user.toObject(),
                 course: { name: course.name, slug: course.slug },
                 assn:   { name: assn.name, slug: assn.slug },
                 file:   {

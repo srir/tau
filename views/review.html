@@ -4,7 +4,7 @@
         <a href="/{{course.slug}}">{{course.slug}}</a>/<a href="/{{course.slug}}/{{assn.slug}}">{{assn.slug}}</a>/{{file.name}}
       </div>
     </div>
-    <dl id="code" data-file-id="{{file.id}}">
+    <dl id="code" data-user-name="{{user.name}}" data-user-id="{{user._id}}" data-file-id="{{file.id}}">
       {{{file.contents}}}
     </dl>
 {{/partial}}
@@ -36,7 +36,7 @@
   <script type="text/javascript" src="/js/lib/lodash.js"></script>
   <script type="text/javascript" src="/js/lib/backbone-min.js"></script>
   <script type="text/javascript" src="/js/views/review.js"></script>
-  <script type-"text/javascript">
+  <script type="text/javascript">
     $(function() {Comments.reset({{{file.comments}}}); });
   </script>
 {{/partial}}
