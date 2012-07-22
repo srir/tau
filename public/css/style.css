@@ -120,6 +120,10 @@ ul {
   width: 640px;
 }
 
+.code .kw {
+  color: #b58700;
+}
+
 .code dt.comment {
   border: none;
 }
