@@ -9,8 +9,6 @@ module.exports = (function () {
     password:     { type: String, required: true },
     email:        { type: String, required: true },
     handins:      [{ type: ObjectId, ref: 'Handin' }],
-    courses:      [{ type: ObjectId, ref: 'Course' }],
-    staffCourses: [{ type: ObjectId, ref: 'Course' }]
   });
   models.User = mongoose.model('User', UserSchema);
 
@@ -44,7 +42,6 @@ module.exports = (function () {
   var HandinSchema = new Schema({
     assignment: String,
     course:     { type: ObjectId, ref: 'CourseSchema' },
-    user:       { type: ObjectId, ref: 'UserSchema' },
     files:      [{ type: ObjectId, ref: 'FileSchema' }]
   });
   models.Handin = mongoose.model('Handin', HandinSchema);
