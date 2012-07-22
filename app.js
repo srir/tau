@@ -1,4 +1,4 @@
-var application_root = __dirname,
+var application_root  = __dirname,
   express       = require('express'),
   passport      = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
@@ -6,11 +6,11 @@ var application_root = __dirname,
   mongoose      = require('mongoose'),
   cons          = require('consolidate'),
   path          = require('path'),
-  models        = require('./models'),
-  sha1          = require('sha1'),
+  sha1          = require('sha1');
+
+var models      = require('./models'),
   authUtil      = require('./authUtil'),
   viewUtil      = require('./viewUtil');
-
 
 // var drl = new models.User();
 // drl.name = "Dr. Dan";

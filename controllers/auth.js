@@ -2,7 +2,6 @@ module.exports = function(app) {
   var passport  = require('passport'),
     authUtil    = require('../authUtil');
 
-
   app.get('/login', function(req, res){
     var data = {
       title: "Tau login",
