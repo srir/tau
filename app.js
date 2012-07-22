@@ -28,6 +28,7 @@ app.configure(function(){
   app.use(express.session({ secret: 'watman' }));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(express.logger({ format: 'dev' }));
   app.use(flash());
   app.use(app.router);
   app.use(express.static(path.join(application_root, "public")));
