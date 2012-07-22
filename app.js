@@ -62,7 +62,7 @@ app.post('/dev/populate', function(req, res) {
         serializable = new models.File(),
         ordered = new models.File();
     sri.name = "Sri";
-    sri.password = "srivacuums";
+    sri.password = ".";
     sri.email = "srikrish@andrew.cmu.edu";
     sri.save(function(e) { if(e) {console.log(err);}});
     rafee.name = "Rafee";
@@ -79,7 +79,8 @@ app.post('/dev/populate', function(req, res) {
     drl.save(function(e) { if(e) {console.log(err);}});
 
     c15150.name = "15-150";
-    c15150.assignments.push("LOLZ Fundict");
+    c15150.slug = "15-150";
+    c15150.assignments.push("assn09");
     c15150.staff.push(iev._id);
     c15150.staff.push(drl._id);
     c15150.students.push(sri._id);
@@ -88,22 +89,26 @@ app.post('/dev/populate', function(req, res) {
     });
 
     fundict.name = "fundict.sml";
+    fundict.slug = "fundict.sml";
     fundict.path =
-        application_root + "/data/handins/srikirsh/15150/assn09/fundict.sml";
+        application_root + "/data/handins/srikrish/15150/assn09/fundict.sml";
     fundict.timestamp = new Date();
     fundict.save(function(e) { if(e) {console.log(err);}});
     ordered.name = "ordered.sml";
+    ordered.slug = "ordered.sml";
     ordered.path =
-        application_root + "/data/handins/srikirsh/15150/assn09/ordered.sml";
+        application_root + "/data/handins/srikrish/15150/assn09/ordered.sml";
     ordered.timestamp = new Date();
     ordered.save(function(e) { if(e) {console.log(err);}});
     serializable.name = "serializable.sml";
+    serializable.slug = "serializable.sml";
     serializable.path =
-        application_root+"/data/handins/srikirsh/15150/assn09/serializable.sml";
+        application_root+"/data/handins/srikrish/15150/assn09/serializable.sml";
     serializable.timestamp = new Date();
     serializable.save(function(e) { if(e) {console.log(err);}});
 
-    assn09.name = "LOLZ Fundict";
+    assn09.name = "Assignment 09";
+    assn09.slug = "assn09";
     assn09.course = c15150._id;
     assn09.user = sri._id;
     assn09.files.push(fundict._id);

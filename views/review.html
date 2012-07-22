@@ -1,9 +1,10 @@
 {{#partial "content"}}
     <div class="contentHeader">
       <div class="filepath">
-        <a href="/{{course.id}}/{{assn.id}}">{{assn.name}}</a>/memo.sml
+        <a href="/{{course.slug}}">{{course.slug}}</a>/<a href="/{{course.slug}}/{{assn.slug}}">{{assn.slug}}</a>/{{file.name}}
       </div>
     </div>
+    <dl id="code">{{{file.contents}}}</dl>
     <dl id="code">
       <dt>1</dt><dd><span class="kw">fun</span> memo (f : D.Key.t -> 'a) : D.key.t -> 'a =</dd>
         <dt>2</dt><dd class="code">    <span class="kw">let</span></dd>
