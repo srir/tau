@@ -12,6 +12,7 @@
     "handlebars": "~1.0.5beta",
     "consolidate": "~0.3.1",
     "connect-flash": "~0.1.0",
-    "sha1": "0.0.1"
+    "sha1": "0.0.1",
+    "lodash": "~0.4.2"
   }
 }
