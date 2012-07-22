@@ -77,12 +77,14 @@ module.exports = function(app) {
       c15210.slug = "15-210";
       c15210.assignments.push("assn07");
       c15210.students.push(vsiao._id);
+      c15210.staff.push(iev._id);
       c15210.save(function(e) { if (e) console.log(e); });
 
       c15122.name = "15-122";
       c15122.slug = "15-122";
       c15122.assignments.push("hw01");
       c15122.students.push(dsyang._id);
+      c15122.staff.push(iev._id);
       c15122.save(function(e) { if (e) console.log(e); });
 
       funcomment1.text = "Your style is bad and you should feel bad";
@@ -98,7 +100,7 @@ module.exports = function(app) {
       funcomment2.startLine = 13;
       funcomment2.endLine = 20;
       funcomment2.save(function(e) { if(e) {console.log(e);}});
-      
+
       pixelate.name = "pixelate.c0";
       pixelate.slug = "pixelate.c0";
       pixelate.path =
