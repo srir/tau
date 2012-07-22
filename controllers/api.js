@@ -3,6 +3,7 @@ module.exports = function(app) {
       m = require('../models'),
       _ = require('lodash'),
       fs = require('fs'),
+      async = require('async'),
       ok = function(d) {
           return {status: "Success", data: d};
       },
@@ -113,13 +114,33 @@ module.exports = function(app) {
         });
     });
 
-  app.get('/api/course/:courseid/assignments/:assignid',
+  app.get('/api/course/:courseid/assignments/:assignslug',
          //authUtils.ensureAuthenticated,
           function(req, res) {
               m.Course.findById(req.params.courseid).populate('students')
               .exec(function(err, course) {
-                  console.log(course);
-                  res.send(course);
+                  var ass = [];
+                  var funcs = _.map(course.students, function(s) {
+                      return function(cb) {
+                          m.User.findById(s).populate('assignments')
+                              .exec(function (err, u) {
+                                  _.map(u.assignments, function(a) {
+                                      if(a.slug === req.params.assignslug) {
+                                          console.log(a);
+                                          ass.push(a);
+                                      }
+                                  });
+                                  return cb();
+                              });
+                      };
+                  });
+                  async.parallel(funcs, function(err, results) {
+                      if(!err) {
+                          res.send(ok({assignments: ass}));
+                      } else {
+                          res.send(notok("ERROR"+err));
+                      }
+                  });
               });
 
     });

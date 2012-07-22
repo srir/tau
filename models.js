@@ -43,7 +43,7 @@ module.exports = (function () {
 
   var AssignmentSchema = new Schema({
     name:       { type: String, required: true },
-    slug:       { type: String, unique: true },
+    slug:       { type: String, required: true},
     course:     { type: ObjectId, ref: 'Course', required: true },
     user:       { type: ObjectId, ref: 'User', required: true },
     files:      [{ type: ObjectId, ref: 'File' }]
