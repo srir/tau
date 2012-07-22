@@ -71,7 +71,7 @@ module.exports = function(app) {
       c15150.assignments.push("assn09");
       c15150.students.push(vsiao._id);
       c15150.staff.push(iev._id);
-      c15150.staff.push(sri._id);
+      c15150.students.push(sri._id);
       c15150.staff.push(dsyang._id);
       c15150.staff.push(drl._id);
       c15150.students.push(sri._id);
@@ -82,7 +82,7 @@ module.exports = function(app) {
       c15210.assignments.push("assn07");
       c15210.students.push(dsyang._id);
       c15210.students.push(sri._id);
-      c15210.staff.push(vsiao._id);
+      c15210.students.push(vsiao._id);
       c15210.staff.push(iev._id);
       c15210.save(function(e) { if (e) console.log(e); });
 
