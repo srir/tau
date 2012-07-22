@@ -1,6 +1,8 @@
 module.exports = function(app) {
-  var models = require('../models'),
-    _ = require('lodash');
+  var _      = require('lodash');
+  var models = require('../models');
+  var application_root = app.set('application_root');
+
   app.delete('/dev/delete', function(req, res) {
       models.User.remove({}, function(err) {
           console.log(err);
