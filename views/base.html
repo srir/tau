@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <title>tau</title>
   <link href="/css/style.css" rel="stylesheet" type="text/css" />
-  <link href="http://fonts.googleapis.com/css?family=Inconsolata" 
+  <link href="http://fonts.googleapis.com/css?family=Inconsolata"
     rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="/js/lib/backbone-min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -14,9 +15,12 @@
         <img src="/images/tau.png" alt="tau" />
       </a>
       <ul class="nav">
-        <li><a href="#">browser</a></li>
-        <li><a href="#">settings</a></li>
-        <li><a href="#" class="logoutLink">log out</a></li>
+        <li><a href="/15150">15-150</a></li>
+        <li><a href="/15122">15-122</a></li>
+        <li><a href="/15210">15-210</a></li>
+        <li><a href="/{{course.id}}">browse</a></li>
+        <li><a href="/account">settings</a></li>
+        <li><a href="/auth/logout" class="logoutLink">log out</a></li>
       </ul>
     </div>
     <div class="content">
