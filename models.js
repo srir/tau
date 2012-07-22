@@ -7,41 +7,41 @@ module.exports = (function () {
   var UserSchema = new Schema({
     name:         String,
     password:     { type: String, required: true },
-    email:        { type: String, required: true },
+    email:        { type: String, required: true, lowercase: true, trim: true },
     handins:      [{ type: ObjectId, ref: 'Handin' }],
   });
   models.User = mongoose.model('User', UserSchema);
 
   var CommentSchema = new Schema({
-    text:       String,
-    user:       { type: ObjectId, ref: 'UserSchema' } ,
-    timestamp:  Date,
-    startLine:  Number,
-    startChar:  Number,
-    endLine:    Number,
-    endChar:    Number
+    text:       { type: String, required: true },
+    user:       { type: ObjectId, ref: 'UserSchema', required: true } ,
+    timestamp:  { type: Date, required: true },
+    startLine:  { type: Number, required: true },
+    startChar:  { type: Number, required: true },
+    endLine:    { type: Number, required: true },
+    endChar:    { type: Number, required: true }
   });
   models.Comment = mongoose.model('Comment', CommentSchema);
 
   var FileSchema = new Schema({
-    name:       String,
-    text:       String,
-    timestamp:  Date,
+    name:       { type: String, required: true },
+    text:       { type: String, required: true },
+    timestamp:  { type: Date, required: true },
     comments:   [{ type: ObjectId, ref: 'CommentSchema' }]
   });
   models.File = mongoose.model('File', FileSchema);
 
   var CourseSchema = new Schema({
-    name:         String,
-    staff:        [{ type: ObjectId, ref: 'UserSchema' }],
+    name:         { type: String, required: true },
+    staff:        [{ type: ObjectId, ref: 'UserSchema', required: true }],
     students:     [{ type: ObjectId, ref: 'UserSchema' }],
     assignments:  [String]
   });
   models.Course = mongoose.model('Course', CourseSchema);
 
   var HandinSchema = new Schema({
-    assignment: String,
-    course:     { type: ObjectId, ref: 'CourseSchema' },
+    assignment: { type: String, required: true },
+    course:     { type: ObjectId, ref: 'CourseSchema', required: true },
     files:      [{ type: ObjectId, ref: 'FileSchema' }]
   });
   models.Handin = mongoose.model('Handin', HandinSchema);
