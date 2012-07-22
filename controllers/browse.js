@@ -21,7 +21,7 @@ module.exports = function(app) {
           console.log(assn.user);
           console.log(req.user._id);
           console.log(course.staff);
-      if(!((assn.user === req.user._id) || auth.isStaff(req.user, course))) {
+      if(!(auth.isAuthor(req.user, assn) || auth.isStaff(req.user, course))) {
           console.log("No permissions!");
           res.render('auth/no_permissions');
       }
