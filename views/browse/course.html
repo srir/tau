@@ -6,7 +6,9 @@
     </div>
     <ul>
       {{#each assns}}
-      <li><a href="/{{../course.slug}}/{{slug}}">{{name}}</a></li>
+      <li class="assignment">
+        <a href="/{{../course.slug}}/{{slug}}">{{name}}</a>
+      </li>
       {{/each}}
     </ul>
 {{/partial}}

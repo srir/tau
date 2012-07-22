@@ -150,6 +150,7 @@ $(function() {
         this.selectedLines = [];
       }
       this.startLine = null;
+      return false;
     },
     beginComment: function(lines) {
       this.commenting = true;
