@@ -1,21 +1,21 @@
 /user/<id>/course/<id>
 GET - given user and course, is user student or staff for course (DONE)
-
+check! (DY 5:31am)
 /user/<id>/course
-GET - all courses for a user (DONE)
-POST - create a course (you become staff) (DONE)
-
+GET - all courses for a user (DONE) check DY
+POST - create a course (you become staff) (DONE) check DY
+     name,slug
 /user/<id>/course/<id>/assignments
-GET - all assigments for a user for a course (DONE)
+GET - all assigments for a user for a course (DONE) (DY check)
 
 /user/<id>/course/<id>/assignments/<name>
-GET - all files for an assignment (DONE)
+GET - all files for an assignment (DONE) (DY Check)
 
 /course/<id>/assignments/<id>
-GET - all assignments for a course that has a specific name
+GET - all assignments for a course that has a specific name (DY Check)
 
 /course/<id>/assignments
-POST - add assignment names to a course (staff only)
+POST - add assignment names to a course (staff only) CK echak
 
 /course/<id>/users
 GET - all users associated with a course
