@@ -47,6 +47,7 @@ module.exports = function(app) {
         });
     });
 
+<<<<<<< HEAD
 
 
   app.get('/api/user/:userid/course/:courseid/assignments/:assignid', //authUtils.ensureAuthenticated,
@@ -118,6 +119,50 @@ module.exports = function(app) {
           }
         });
     });
+=======
+  app.post('/api/user/:userid/course', //authUtils.ensureAuthenticated,
+    function(req, res) {
+      var c = new m.Course(),
+          u = {'_id':req.params.userid};// = req.user;
+      c.name = req.body.name;
+//      c.slug = req.body.slug;
+      c.staff.push(u._id);
+      c.save(function(err) {
+          if (!err) {
+              res.send(ok({course: c}));
+          } else {
+              console.log(err);
+              res.send(notok("Saving course failed!"));
+          }
+      });
+    });
+
+
+  app.get('/api/user/:userid/course/:courseid/assignments',
+          //authUtils.ensureAuthenticated,
+         function(req, res) {
+             console.log(req.params);
+             // if(req.params.userid != req.user._id) {
+             //     res.send(notok("Userid does not match user logged in."));
+             // }
+             m.User.findById(req.params.userid).populate('assignments')
+                 .exec(function(err, user){
+                     console.log(user);
+                     var ass;
+                     if(!err) {
+                         ass = _.filter(user.assignments, function(e) {
+                             console.log(e.course);
+                             return (e.course == req.params.courseid);
+                         });
+                         console.log(ass);
+                         res.send(ok({"assignments": ass}));
+                     } else {
+                         console.log(err);
+                         res.send(notok("not ok."));
+                     }
+                 });
+  });
+>>>>>>> some apis
 
   app.get('/review', function(req, res) {
     res.render('review');
