@@ -61,6 +61,7 @@ app.post('/dev/populate', function(req, res) {
         fundict = new models.File(),
         serializable = new models.File(),
         ordered = new models.File();
+        comment = new models.Comment();
     sri.name = "Sri";
     sri.password = "srivacuums";
     sri.email = "srikrish@andrew.cmu.edu";
@@ -89,18 +90,27 @@ app.post('/dev/populate', function(req, res) {
 
     fundict.name = "fundict.sml";
     fundict.path =
-        application_root + "/data/handins/srikirsh/15150/assn09/fundict.sml";
+        application_root + "/data/handins/srikrish/15150/assn09/fundict.sml";
     fundict.timestamp = new Date();
     fundict.save(function(e) { if(e) {console.log(err);}});
     ordered.name = "ordered.sml";
     ordered.path =
-        application_root + "/data/handins/srikirsh/15150/assn09/ordered.sml";
+        application_root + "/data/handins/srikrish/15150/assn09/ordered.sml";
     ordered.timestamp = new Date();
     ordered.save(function(e) { if(e) {console.log(err);}});
     serializable.name = "serializable.sml";
     serializable.path =
-        application_root+"/data/handins/srikirsh/15150/assn09/serializable.sml";
+        application_root+"/data/handins/srikrish/15150/assn09/serializable.sml";
     serializable.timestamp = new Date();
+    comment.text = "VINCEEEEEENT!"
+    comment.user = sri._id;
+    comment.timestamp = new Date();
+    comment.startLine = 6;
+    comment.endLine = 42;
+    comment.startChar = 4;
+    comment.endChar = 8;
+    comment.save(function(e) { if(e) {console.log(err);}});
+    serializable.comments.push(comment);
     serializable.save(function(e) { if(e) {console.log(err);}});
 
     assn09.name = "LOLZ Fundict";
