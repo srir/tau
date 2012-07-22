@@ -1,17 +1,19 @@
 {{#partial "content"}}
-      <div class="contentHeader">
-        <h1>Code Review</h1>
+    <div class="contentHeader">
+      <div class="filepath">
+        <a href="#">vsiao</a>/<a href="#">assn11</a>/memo.sml
       </div>
-      <dl class="code">
-        <dt>1</dt><dd><span class="kw">fun</span> memo (f : D.Key.t -> 'a) : D.key.t -> 'a =</dd>
-        <dt>2</dt><dd>    <span class="kw">let</span></dd>
-        <dt>3</dt><dd>      <span class="kw">val</span> hist : 'a D.dict ref = ref D.empty</dd>
-        <dt>4</dt><dd>      <span class="kw">fun</span> f_memoed x =</dd>
-        <dt>5</dt><dd>          <span class="kw">case</span> D.lookup (!hist) x</dd>
-        <dt>6</dt><dd>            <span class="kw">of</span> SOME v => v</dd>
-        <dt>7</dt><dd>             | NONE let</dd>
-        <dt>8</dt><dd></dd>
-        <dt>9</dt><dd>        10        20        30        40        50        60        70        80<br />omg overflow</dd>
+    </div>
+    <dl id="code">
+      <dt>1</dt><dd><span class="kw">fun</span> memo (f : D.Key.t -> 'a) : D.key.t -> 'a =</dd>
+        <dt>2</dt><dd class="code">    <span class="kw">let</span></dd>
+        <dt>3</dt><dd class="code">      <span class="kw">val</span> hist : 'a D.dict ref = ref D.empty</dd>
+        <dt>4</dt><dd class="code">      <span class="kw">fun</span> f_memoed x =</dd>
+        <dt>5</dt><dd class="code">          <span class="kw">case</span> D.lookup (!hist) x</dd>
+        <dt>6</dt><dd class="code">            <span class="kw">of</span> SOME v => v</dd>
+        <dt>7</dt><dd class="code">             | NONE let</dd>
+        <dt>8</dt><dd class="code"></dd>
+        <dt>9</dt><dd class="code">        10        20        30        40        50        60        70        80<br />omg overflow</dd>
         <dd class="comment">
           <div class="commentAuthor">
             <a href="#" class="commentAuthorName">Vincent Siao</a> Instructor
@@ -20,12 +22,26 @@
             over 80 columns again? you suck.
           </div>
         </dd>
-        <dt>10</dt><dd></dd>
-        <dt>11</dt><dd></dd>
-        <dt>12</dt><dd></dd>
-        <dt>13</dt><dd></dd>
-        <dt>14</dt><dd>\EOF</dd>
+        <dt>10</dt><dd class="code"></dd>
+        <dt>11</dt><dd class="code"></dd>
+        <dt>12</dt><dd class="code hasCollapsedComment">  this line has a comment which has been collapsed<a href="#" class="commentExpand">See Comments</a></dd>
+        <dt>13</dt><dd class="code"></dd>
+        <dt>14</dt><dd class="code">\EOF</dd>
       </dl>
+{{/partial}}
+
+{{#partial "templates"}}
+  <script type="text/template" id="comment-template">
+    <dd class="comment">
+      <div class="commentAuthor">
+        <a href="#" class="commentAuthorName"><%= authorName %></a>
+        <%= isInstructor ? 'Instructor' : '' %>
+      </div>
+      <div class="commentBody">
+        <%= comment %>
+      </div>
+    </dd>
+  </script>
 {{/partial}}
 
 {{> base }}
