@@ -1,0 +1,14 @@
+{{#partial "content"}}
+    <div class="contentHeader">
+      <div class="filepath">
+        {{course.name}}
+      </div>
+    </div>
+    <ul>
+      {{#each assns}}
+      <li><a href="/{{../course.slug}}/{{slug}}">{{name}}</a></li>
+      {{/each}}
+    </ul>
+{{/partial}}
+
+{{> base }}

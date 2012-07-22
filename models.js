@@ -25,6 +25,7 @@ module.exports = (function () {
 
   var FileSchema = new Schema({
     name:       { type: String, required: true },
+    slug:       { type: String, unique: true },
     path:       { type: String, required: true },
     timestamp:  { type: Date, required: true },
     comments:   [{ type: ObjectId, ref: 'Comment' }]
@@ -33,6 +34,7 @@ module.exports = (function () {
 
   var CourseSchema = new Schema({
     name:         { type: String, required: true },
+    slug:         { type: String, unique: true },
     staff:        [{ type: ObjectId, ref: 'User', required: true }],
     students:     [{ type: ObjectId, ref: 'User' }],
     assignments:  [String]
@@ -41,6 +43,7 @@ module.exports = (function () {
 
   var AssignmentSchema = new Schema({
     name:       { type: String, required: true },
+    slug:       { type: String, unique: true },
     course:     { type: ObjectId, ref: 'Course', required: true },
     user:       { type: ObjectId, ref: 'User', required: true },
     files:      [{ type: ObjectId, ref: 'File' }]

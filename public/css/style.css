@@ -11,17 +11,17 @@ body {
 }
 
 h1 {
-  margin-top: 20px;
-  padding-left: 30px;
+  margin: 0;
+  padding-left: 10px;
 }
 
 a {
   color: #1777a4;
   text-decoration: none;
-  -o-transition: all 0.1s linear;
-  -moz-transition: all 0.1s linear;
-  -webkit-transition: all 0.1s linear;
-  transition: all 0.1s linear;
+  -o-transition: background-color 0.1s linear, color 0.1s linear;
+  -moz-transition: background-color 0.1s linear, color 0.1s linear;
+  -webkit-transition: background-color 0.1s linear, color 0.1s linear;
+  transition: background-color 0.1s linear, color 0.1s linear;
 }
 
 img {
@@ -34,6 +34,10 @@ a:hover {
 
 ul {
   list-style-type: none;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .container {
@@ -76,39 +80,64 @@ ul {
   text-decoration: none;
 }
 
-.nav a.logoutLink:hover {
+.nav .logoutLink:hover {
   background-color: #ff5757;
   color: #fff;
 }
 
-.content {
+.content,
+.footer {
   margin-left: 140px;
+}
+
+.footer,
+.contentHeader {
+  width: 691px;
+}
+
+.footer {
+  border-top: 1px solid #999;
+  color: #aaa;
+  font-size: 11px;
+  padding: 10px 0;
+  text-align: right;
 }
 
 .contentHeader {
   height: 70px;
-  border-bottom: 1px solid #aaa;
   padding-top: 20px;
+  position: relative;
+  border-bottom: 1px solid #999;
 }
 
-.code {
+.filepath {
+  font-family: 'Inconsolata';
+  padding: 5px 10px;
+  position: absolute;
+  bottom: 0;
+}
+
+#code {
   background: #ccc;
   line-height: 17px;
+  margin: 1px 0;
   width: 691px;
 }
 
-.code dt {
+#code dt {
   border-right: 1px solid #aaa;
   clear: left;
   color: #999;
   float: left;
   font-size: 13px;
   padding-right: 5px;
+  position: relative;
   text-align: right;
   width: 24px;
+  z-index: 1;
 }
 
-.code dd {
+#code dd {
   background: #eee;
   border-left: 1px solid #ff5757;
   font-family: 'Inconsolata';
@@ -116,15 +145,53 @@ ul {
   letter-spacing: 0.5px;
   margin-left: 29px;
   padding: 0 10px;
+  position: relative;
   white-space: pre;
   width: 640px;
 }
 
-.code dt.comment {
+#code .kw {
+  color: #b58700;
+}
+
+#code dt.comment {
   border: none;
 }
 
-.code dd.comment {
+#code dd.hasCollapsedComment {
+  border-bottom: 1px solid #dc9917;
+}
+
+#code .commentCollapse,
+#code .commentExpand {
+  background: #dc9917;
+  border-radius: 0 2px 2px 0;
+  color: #ddd;
+  display: block;
+  font-size: 18px;
+  height: 18px;
+  position: absolute;
+  right: -17px;
+  text-align: center;
+  top: 0;
+  width: 17px;
+}
+
+#code .commentExpand {
+  display: none;
+}
+
+#code .commentCollapse:hover,
+#code .commentExpand:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+#code dd.hasCollapsedComment .commentExpand {
+  display: block;
+}
+
+#code dd.comment {
   background-color: #f7fa97;
   border-color: #dc9917;
   border-right: 1px solid #dc9917;
