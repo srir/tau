@@ -334,3 +334,52 @@ textarea {
   color: #fff;
   text-decoration: none;
 }
+
+/********
+ * auth
+ ********/
+#splash.container {
+ text-align: center;
+}
+
+#splash .logo {
+  border-bottom: none;
+  display: inline-block;
+  *display: block;
+  *zoom: 1;
+}
+
+.login input {
+  border-radius: 3px;
+  font-size: 13px;
+  margin-bottom: 12px;
+  padding: 8px 14px;
+  -o-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  -webkit-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+
+.login input[type="text"],
+.login input[type="password"] {
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
+.login input[type="text"]:focus,
+.login input[type="password"]:focus {
+  border-color: #1777a4;
+}
+
+.login input[type="submit"] {
+  background: none;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  width: 80px;
+}
+
+.login input[type="submit"]:hover {
+  background: #1777a4;
+  border-color: #eee #1777a4 #333;
+  color: #fff;
+}
