@@ -36,6 +36,10 @@ ul {
   list-style-type: none;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .container {
   margin: 0 auto;
   width: 960px;
@@ -81,8 +85,22 @@ ul {
   color: #fff;
 }
 
-.content {
+.content,
+.footer {
   margin-left: 140px;
+}
+
+.footer,
+.contentHeader {
+  width: 691px;
+}
+
+.footer {
+  border-top: 1px solid #999;
+  color: #aaa;
+  font-size: 11px;
+  padding: 10px 0;
+  text-align: right;
 }
 
 .contentHeader {
@@ -102,7 +120,7 @@ ul {
 #code {
   background: #ccc;
   line-height: 17px;
-  margin-top: 2px;
+  margin: 1px 0;
   width: 691px;
 }
 
@@ -144,23 +162,33 @@ ul {
   border-bottom: 1px solid #dc9917;
 }
 
+#code .commentCollapse,
 #code .commentExpand {
   background: #dc9917;
   border-radius: 0 2px 2px 0;
   color: #ddd;
   display: block;
   font-size: 18px;
-  height: 17px;
+  height: 18px;
   position: absolute;
   right: -17px;
   text-align: center;
-  top: 1px;
+  top: 0;
   width: 17px;
 }
 
+#code .commentExpand {
+  display: none;
+}
+
+#code .commentCollapse:hover,
 #code .commentExpand:hover {
   color: #fff;
   text-decoration: none;
+}
+
+#code dd.hasCollapsedComment .commentExpand {
+  display: block;
 }
 
 #code dd.comment {
