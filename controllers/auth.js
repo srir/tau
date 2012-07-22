@@ -23,7 +23,7 @@ module.exports = function(app) {
 
   app.get('/auth/logout', function(req, res){
       var data = { title: "Tau logout" };
-      req.flash('error' "You've logouted out,  Goodbye!'")
+      req.flash('error', "You've loged out,  Goodbye!'")
       req.logout();
       res.redirect('/auth/login');
   });
