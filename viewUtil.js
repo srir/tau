@@ -23,4 +23,7 @@ module.exports = (function() {
 
   handlebars.registerPartial('base',
     fs.readFileSync(__dirname + '/views/base.html', 'utf8'));
+
+  handlebars.registerPartial('sidebar',
+    fs.readFileSync(__dirname + '/views/sidebar.html', 'utf8'));
 })();

@@ -26,6 +26,22 @@ app.configure(function(){
   app.use(express.logger({ format: 'dev' }));
   app.use(flash());
   app.use(express.static(path.join(application_root, "public")));
+  app.use(function (req, res, next) {
+    if (req.user) {
+      models.Course
+      .find({})
+      .or([{staff: req.user._id},
+          {students: req.user._id}])
+      .exec(function (err, courses) {
+        if (!err && courses != undefined) {
+          res.locals.classes = courses;
+        }
+        next();
+      });
+    } else {
+      next();
+    }
+  });
   app.use(app.router);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.engine('html', cons.handlebars);
