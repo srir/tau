@@ -22,10 +22,14 @@ module.exports = function(app) {
   });
 
   app.get('/auth/logout', function(req, res){
-      var data = { title: "Tau logout" };
+      // TODO figure out what this is?
+      var data = { 
+        title: "Tau logout",
+        message: 'Good Bye!'
+      };
       req.flash('error', "You've loged out,  Goodbye!'")
       req.logout();
-      res.redirect('/auth/login');
+      res.render('auth/login', data);
   });
 
   app.get('/auth/no_permissions', function(req, res){

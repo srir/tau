@@ -338,8 +338,19 @@ textarea {
 /********
  * auth
  ********/
+
 #splash.container {
  text-align: center;
+}
+
+#splash .flash {
+  background: #f7fa97;
+  border: 1px solid #dc9917;
+  border-radius: 3px;
+  display: block;
+  margin: 20px auto 0;
+  padding: 8px 16px;
+  width: 200px;
 }
 
 #splash .logo {
@@ -351,9 +362,10 @@ textarea {
 
 .login input {
   border-radius: 3px;
+  font-family: 'Helvetica', 'Arial', sans-serif;
   font-size: 13px;
   margin-bottom: 12px;
-  padding: 8px 14px;
+  padding: 8px 12px;
   -o-transition: all 0.1s linear;
   -moz-transition: all 0.1s linear;
   -webkit-transition: all 0.1s linear;

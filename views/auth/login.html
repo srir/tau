@@ -9,6 +9,9 @@
 </head>
 <body>
   <div class="container" id="splash">
+    {{#message}}
+    <div class="flash">{{this}}</div>
+    {{/message}}
     <img src="/images/tau-big.png" alt="tau" />
     <form method="POST" action="/auth/login" class="login">
       <input type="text" id="username" name="username" placeholder="email"><br />
