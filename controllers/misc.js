@@ -98,7 +98,7 @@ module.exports = function(app) {
       funcomment2.startLine = 13;
       funcomment2.endLine = 20;
       funcomment2.save(function(e) { if(e) {console.log(e);}});
-      
+
       pixelate.name = "pixelate.c0";
       pixelate.slug = "pixelate.c0";
       pixelate.path =
@@ -168,7 +168,7 @@ module.exports = function(app) {
       boruvkacomment.user = dsyang._id;
       boruvkacomment.timestamp = new Date();
       boruvkacomment.startLine = 37;
-      boruvkacomment.startLine = 39;
+      boruvkacomment.endLine = 39;
       boruvkacomment.save(function(e) { if(e) {console.log(e);}});
 
       boruvka.name = "BoruvkaMST.sml";

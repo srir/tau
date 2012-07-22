@@ -2,7 +2,7 @@ var _inComment = false;
 
 function keywordReplace(frag) {
   return frag.replace(
-    /\b(val|rec|ref|fn|fun|case|of|andalso|orelse|let|local|in|end|functor|structure|signature|sig|struct|if|else|datatype|type)\b/g, 
+    /\b(val|rec|ref|fn|fun|case|of|andalso|orelse|let|local|in|end|functor|structure|signature|sig|struct|if|else|datatype|type)\b/g,
     '<span class="kw">$1</span>'
   ).replace(
     /\b(SOME|NONE|EQUAL|LESS|GREATER|true|false)\b/g,
@@ -40,6 +40,7 @@ module.exports = function(app) {
     models  = require('../models'),
     auth    = require('../authUtil'),
     _       = require('lodash'),
+    async   = require('async'),
     errors  = require('express-errors');
   app.get('/:courseid/:assnid/:fileid', function(req, res, next) {
     var courseid = req.params.courseid,
@@ -57,29 +58,51 @@ module.exports = function(app) {
         var file = _.find(assn.files, function (file) {
           return (file.slug === fileid);
         });
-        fs.readFile(file.path, function (err, contents) {
+        models.File
+        .findById(file)
+        .populate('comments')
+        .exec(function(err, file) {
           if (err) return next(new Error("Internal Server Error"));
-          var idx = 1;
-          var annotated = _(contents.toString().split("\n")).map(function (line) {
-            var buf = "";
-            var leader = "<dt>" + idx + "</dt>";
-            while (line.length >= 80) {
-              buf += format(line.slice(0, 80)) + "<br/>";
-              line = line.slice(80, line.length);
-            }
-            buf += format(line);
-            idx++;
-            return leader + "<dd class=\"code\">" + buf + "</dd>";
-          }).join("\n");
-          res.render('review', {
-            course: { name: course.name, slug: course.slug },
-            assn:   { name: assn.name, slug: assn.slug },
-            file:   {
-              id:       file._id,
-              name:     file.name,
-              slug:     file.slug,
-              contents: annotated
-            }
+          fs.readFile(file.path, function (err, contents) {
+            if (err) return next(new Error("Internal Server Error"));
+            var idx = 1;
+            var annotated = _(contents.toString().split("\n")).map(function (line) {
+              var buf = "";
+              var leader = "<dt>" + idx + "</dt>";
+              while (line.length >= 80) {
+                buf += format(line.slice(0, 80)) + "<br/>";
+                line = line.slice(80, line.length);
+              }
+              buf += format(line);
+              idx++;
+              return leader + "<dd class=\"code\">" + buf + "</dd>";
+            }).join("\n");
+            async.map(file.comments, function(comment, cb) {
+              models.Comment.findById(comment._id).populate('user')
+              .exec(function(err, hydratedComment) {
+                cb(null, {
+                  authorName  : hydratedComment.user.name,
+                  timestamp   : hydratedComment.timestamp,
+                  comment     : hydratedComment.text,
+                  lineRange   : {
+                    from  : hydratedComment.startLine,
+                    to    : hydratedComment.endLine
+                  }
+                });
+              });
+            }, function(err, hydratedComments) {
+              res.render('review', {
+                course: { name: course.name, slug: course.slug },
+                assn:   { name: assn.name, slug: assn.slug },
+                file:   {
+                  id:       file._id,
+                  name:     file.name,
+                  slug:     file.slug,
+                  contents: annotated,
+                  comments: JSON.stringify(hydratedComments)
+                }
+              });
+            });
           });
         });
       });
