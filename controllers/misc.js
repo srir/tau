@@ -170,7 +170,7 @@ module.exports = function(app) {
       boruvkacomment.user = dsyang._id;
       boruvkacomment.timestamp = new Date();
       boruvkacomment.startLine = 37;
-      boruvkacomment.startLine = 39;
+      boruvkacomment.endLine = 39;
       boruvkacomment.save(function(e) { if(e) {console.log(e);}});
 
       boruvka.name = "BoruvkaMST.sml";

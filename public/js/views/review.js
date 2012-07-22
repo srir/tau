@@ -1,48 +1,22 @@
+var Comment = Backbone.Model.extend({
+  initialize: function(comment) {
+    this.authorName = comment.user;
+    this.lineRange  = {
+      from: comment.startLine,
+      to:   comment.endLine
+    };
+    this.timestamp  = comment.timestamp;
+    this.comment    = comment.text;
+  }
+});
+
+var CommentSet = Backbone.Collection.extend({
+  model: Comment
+});
+
+var Comments = new CommentSet;
+
 $(function() {
-
-  var Comment = Backbone.Model.extend({
-    initialize: function(response) {
-      (function(comment) {
-        this.authorName = comment.user;
-        this.lineRange  = {
-          from: comment.startLine,
-          to:   comment.endLine
-        };
-        this.timestamp  = comment.timestamp
-        this.comment    = comment.text
-      })(response.data);
-    }
-
-  });
-
-  var CommentSet = Backbone.Collection.extend({
-    url: '/api/file/' + $('#code').data('file-id') + '/comments',
-    model: Comment
-  });
-
-  var comments = new CommentSet(/*[
-    new Comment({
-      authorName: 'Vincent Siao',
-      isInstructor: true,
-      lineRange: {from: 9, to: 9},
-      comment: 'over 80 columns again? you suck.'
-    }),
-    new Comment({
-      authorName: 'Sri Raghavan',
-      isInstructor: false,
-      lineRange: {from: 9, to: 9},
-      comment: ':-('
-    }),
-    new Comment({
-      authorName: 'Sri Raghavan',
-      isInstructor: false,
-      lineRange: {from: 1, to: 3},
-      comment: 'herp derp'
-    })
-  ]*/);
-  comments.fetch();
-  console.log(comments);
-
   var CommentView = Backbone.View.extend({
     tagName: 'dd',
     className: 'comment',
@@ -95,13 +69,15 @@ $(function() {
       'mouseover dd.code' : 'onMouseOver',
       'click .commentExpand'  : 'commentExpand',
       'click .addComment .cancel' : 'cancelComment',
-      'click .addComment .submit' : 'submitComment'
+      'click .addComment .submit' : 'submitComment',
     },
     initialize: function() {
       $(document).mouseup(_.bind(this.onMouseUp, this));
+      Comments.on('reset', this.render, this);
       this.render();
     },
     render: function() {
+      console.log("LOLOL");
       this.addAll();
     },
     addComment: function(comment) {
@@ -119,7 +95,7 @@ $(function() {
       elem.insertAfter(line);
     },
     addAll: function() {
-      comments.each(_.bind(this.addComment, this));
+      Comments.each(_.bind(this.addComment, this));
     },
     commentExpand: function(event) {
       var line = $(event.target).closest('dd.code');
@@ -206,6 +182,6 @@ $(function() {
     }
   });
 
-  // BOOM render
-  var code = new Review;
+  // BOOM. DON'T FUCKING REMOVE ME
+  var review = new Review;
 });
