@@ -30,6 +30,7 @@ app.configure(function(){
   app.engine('html', cons.handlebars);
   app.set('views', path.join(application_root, "views"));
   app.set('view engine', 'html');
+  app.set('application_root', application_root);
 });
 
 app.delete('/dev/delete', function(req, res) {
