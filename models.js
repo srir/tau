@@ -8,7 +8,7 @@ module.exports = (function () {
     name:         String,
     password:     { type: String, required: true },
     email:        { type: String, required: true, lowercase: true, trim: true },
-    handins:      [{ type: ObjectId, ref: 'Handin' }],
+    assignments:  [{ type: ObjectId, ref: 'Assignment' }],
   });
   models.User = mongoose.model('User', UserSchema);
 
@@ -39,12 +39,13 @@ module.exports = (function () {
   });
   models.Course = mongoose.model('Course', CourseSchema);
 
-  var HandinSchema = new Schema({
-    assignment: { type: String, required: true },
+  var AssignmentSchema = new Schema({
+    name:       { type: String, required: true },
     course:     { type: ObjectId, ref: 'CourseSchema', required: true },
+    user:       { type: ObjectId, ref: 'UserSchema', required: true },
     files:      [{ type: ObjectId, ref: 'FileSchema' }]
   });
-  models.Handin = mongoose.model('Handin', HandinSchema);
+  models.Assignment = mongoose.model('Assignment', AssignmentSchema);
 
   return models;
 })();
