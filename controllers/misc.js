@@ -28,6 +28,7 @@ module.exports = function(app) {
           iev = new models.User(),
           drl = new models.User(),
           dsyang = new models.User(),
+          testuser = new models.User(),
           hw01 = new models.Assignment(),
           c15122 = new models.Course(),
           pixelate = new models.File(),
@@ -68,7 +69,10 @@ module.exports = function(app) {
       c15150.name = "15-150";
       c15150.slug = "15-150";
       c15150.assignments.push("assn09");
+      c15150.students.push(vsiao._id);
       c15150.staff.push(iev._id);
+      c15150.staff.push(sri._id);
+      c15150.staff.push(dsyang._id);
       c15150.staff.push(drl._id);
       c15150.students.push(sri._id);
       c15150.save(function(e) { if (e) console.log(e); });
@@ -76,7 +80,9 @@ module.exports = function(app) {
       c15210.name = "15-210";
       c15210.slug = "15-210";
       c15210.assignments.push("assn07");
-      c15210.students.push(vsiao._id);
+      c15210.students.push(dsyang._id);
+      c15210.students.push(sri._id);
+      c15210.staff.push(vsiao._id);
       c15210.staff.push(iev._id);
       c15210.save(function(e) { if (e) console.log(e); });
 
@@ -84,6 +90,8 @@ module.exports = function(app) {
       c15122.slug = "15-122";
       c15122.assignments.push("hw01");
       c15122.students.push(dsyang._id);
+      c15122.students.push(vsiao._id);
+      c15122.staff.push(sri._id);
       c15122.staff.push(iev._id);
       c15122.save(function(e) { if (e) console.log(e); });
 
