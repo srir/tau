@@ -136,6 +136,31 @@ textarea {
   bottom: 0;
 }
 
+.expandAll,
+.collapseAll {
+  background: #999;
+  border-radius: 2px;
+  bottom: 5px;
+  color: #fff;
+  font-size: 11px;
+  padding: 4px 8px;
+  position: absolute;
+}
+
+.expandAll:hover,
+.collapseAll:hover {
+  background: #1777a4;
+  text-decoration: none;
+}
+
+.expandAll {
+  right: 80px;
+}
+
+.collapseAll {
+  right: 0;
+}
+
 #code {
   background: #ccc;
   line-height: 17px;

@@ -102,6 +102,22 @@ $(function() {
     addAll: function() {
       Comments.each(_.bind(this.addComment, this));
     },
+    expandAll: function() {
+      _.each(this.codeLines, function(line) {
+        if ($(line).hasClass('hasCollapsedComment')) {
+          $(line).find('.commentExpand').click();
+        }
+      });
+    },
+    collapseAll: function() {
+      debugger;
+      _.each(this.codeLines, function(line) {
+        var next = $(line.nextElementSibling);
+        if (next.hasClass('comment')) {
+          next.find('.commentCollapse').click();
+        }
+      });
+    },
     commentExpand: function(event) {
       var line = $(event.target).closest('dd.code');
       line.removeClass('hasCollapsedComment');
@@ -210,7 +226,6 @@ $(function() {
           to: endLine,
         }
       }
-
       $.ajax({
         type: 'POST',
         url:  '/api/file/' + fileId + '/comments',
@@ -233,4 +248,12 @@ $(function() {
 
   // BOOM. DON'T FUCKING REMOVE ME
   var review = new Review;
+  $('.expandAll').click(function() {
+    review.expandAll.call(review);
+    return false;
+  });
+  $('.collapseAll').click(function() {
+    review.collapseAll.call(review);
+    return false;
+  });
 });
