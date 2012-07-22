@@ -8,7 +8,7 @@ POST - create a course (you become staff)
 /user/<id>/course/<id>/assignments
 GET - all assigments for a user for a course 
 
-/course/<id>/assignments/<name>
+/course/<id>/assignments/<id>
 GET - all assignments for a course that has a specific name
 
 /course/<id>/assignments
@@ -19,9 +19,8 @@ GET - all users associated with a course
 POST (type=staff) - add staff to course
 POST (type=student) - add student to course
 
-/user/<id>/course/<id>/assignments/<name>
+/user/<id>/course/<id>/assignments/<id>
 GET - all files for an assignment
-POST - upload an assignment to a course as a student
 
 /file/<id>/comments
 GET -all comments for a file

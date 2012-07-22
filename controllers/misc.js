@@ -1,5 +1,6 @@
 module.exports = function(app) {
-  var models = require('../models');
+  var models = require('../models'),
+    _ = require('lodash');
   app.delete('/dev/delete', function(req, res) {
       models.User.remove({}, function(err) {
           console.log(err);
@@ -91,12 +92,26 @@ module.exports = function(app) {
   });
 
   app.get('/', function(req, res) {
-    models.User.find(function(err, users) {
-      res.render('index', {
-        title: "TAU HERPDERP",
-        users: users
-      })
-    });
+    if (req.user) {
+      var userid = req.user._id;
+      models.Course
+      .find({})
+      .or([{staff: userid},
+           {students: userid}])
+      .exec(function(err, courses) {
+        res.render('index', {
+          courses: _(courses).map(function (course) {
+            return {
+              name: course.name,
+              slug: course.slug,
+              is_staff: _(course.staff).contains(userid)
+            };
+          })
+        });
+      });
+    } else {
+      res.end("Splash page");
+    }
   });
 };
 
