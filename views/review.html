@@ -4,7 +4,7 @@
         <a href="/{{course.slug}}">{{course.slug}}</a>/<a href="/{{course.slug}}/{{assn.slug}}">{{assn.slug}}</a>/{{file.name}}
       </div>
     </div>
-    <dl id="code">
+    <dl id="code" data-file-id="{{file.id}}">
       {{{file.contents}}}
     </dl>
 {{/partial}}

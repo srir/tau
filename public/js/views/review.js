@@ -1,12 +1,26 @@
 $(function() {
 
-  var Comment = Backbone.Model.extend();
+  var Comment = Backbone.Model.extend({
+    initialize: function(response) {
+      (function(comment) {
+        this.authorName = comment.user;
+        this.lineRange  = {
+          from: comment.startLine,
+          to:   comment.endLine
+        };
+        this.timestamp  = comment.timestamp
+        this.comment    = comment.text
+      })(response.data);
+    }
+
+  });
 
   var CommentSet = Backbone.Collection.extend({
+    url: '/api/file/' + $('#code').data('file-id') + '/comments',
     model: Comment
   });
 
-  var comments = new CommentSet([
+  var comments = new CommentSet(/*[
     new Comment({
       authorName: 'Vincent Siao',
       isInstructor: true,
@@ -25,7 +39,9 @@ $(function() {
       lineRange: {from: 1, to: 3},
       comment: 'herp derp'
     })
-  ]);
+  ]*/);
+  comments.fetch();
+  console.log(comments);
 
   var CommentView = Backbone.View.extend({
     tagName: 'dd',
