@@ -10,7 +10,7 @@ module.exports = function(app) {
       notok = function(d) {
           return {status: "Failure", message: d};
       };
-
+  //GET - given user and course, is user student or staff for course (DONE)
   app.get('/api/user/:userid/course/:courseid', authUtils.ensureAuthenticated,
     function(req, res) {
       m.Course.findById(req.params.courseid).exec(function (err, doc) {
@@ -33,7 +33,10 @@ module.exports = function(app) {
 
   app.get('/api/user/:userid/course', authUtils.ensureAuthenticated,
     function(req, res) {
-      m.Course.find({}).or([{staff: req.params.userid},
+        if(!authUtils.isAuthor(req.user, {user: req.params.userid}))
+        { res.send(notok("userID does not match logged in user"));
+        } else {
+             m.Course.find({}).or([{staff: req.params.userid},
                    {students: req.params.userid}]).exec(
         function(err, courses){
           if(!err){
@@ -46,12 +49,16 @@ module.exports = function(app) {
             console.log(err);
           }
         });
+    }
     });
 
   app.post('/api/user/:userid/course', authUtils.ensureAuthenticated,
     function(req, res) {
       var c = new m.Course(),
           u = {'_id':req.params.userid};// = req.user;
+        if(!authUtils.isAuthor(req.user, {user: req.params.userid}))
+        { res.send(notok("userID does not match logged in user"));
+        } else {
       c.name = req.body.name;
       c.slug = req.body.slug;
       c.staff.push(u._id);
@@ -63,6 +70,7 @@ module.exports = function(app) {
               res.send(notok("Saving course failed!"));
           }
       });
+      }
     });
 
 

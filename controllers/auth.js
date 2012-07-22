@@ -23,8 +23,9 @@ module.exports = function(app) {
 
   app.get('/auth/logout', function(req, res){
       var data = { title: "Tau logout" };
+      req.flash('error' "You've logouted out,  Goodbye!'")
       req.logout();
-      res.render('auth/logout', data);
+      res.redirect('/auth/login');
   });
 
   app.get('/auth/no_permissions', function(req, res){
