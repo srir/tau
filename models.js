@@ -25,7 +25,7 @@ module.exports = (function () {
 
   var FileSchema = new Schema({
     name:       { type: String, required: true },
-    text:       { type: String, required: true },
+    path:       { type: String, required: true },
     timestamp:  { type: Date, required: true },
     comments:   [{ type: ObjectId, ref: 'Comment' }]
   });
