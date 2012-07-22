@@ -1,0 +1,49 @@
+typedef int pixel;
+
+int brightness(int pix)
+{
+  int r = pix & 0x00FF0000 >> 16;
+  int g = pix & 0x0000FF00 >> 8;
+  int b = pix & 0x000000FF;
+  int grey = (r + g + b)/3;
+  return grey;
+  //return (pix & 0xFF000000) | (grey << 16) | (grey << 8) | grey;
+}
+
+pixel[] findedges(pixel[] IN, int width, int height, int threshold)
+//@ requires \length(IN) >= width*height;
+//@ ensures \length(\result) == width*height;
+{
+  int w;
+  int h;
+  pixel[] OUT = alloc_array(pixel, width*height);
+
+  for( h = 0; h < height; h++)
+  //@ loop_invariant 0 <= h && h <= height;
+  {
+    for( w = 0; w < width; w++)
+    //@ loop_invariant 0 <= w && w <= width;
+    {
+      OUT[h*width+w] = 0xFFFFFFFF;
+    }
+  }
+
+  for( h = 1; h < (height-1); h++)
+  //@ loop_invariant 1 <= h && h <= height-1;
+  {
+    for( w = 1; w < (width-1); w++)
+    //@ loop_invariant 1 <= w && w <= width-1;
+    {
+      int a_index = (h-1)*width + w;
+      int b_index = (h+1)*width + w;
+      int index = h*width + w;
+      int d_ab = brightness(IN[a_index]) - brightness(IN[b_index]);
+      int d_lr = brightness(IN[index-1]) - brightness(IN[index+1]);
+      if((d_lr*d_lr + d_ab*d_ab) > threshold)
+      {
+	OUT[index] = 0x00000000;
+      }      
+    }
+  }
+  return OUT;
+}

@@ -27,7 +27,10 @@ module.exports = function(app) {
           vsiao = new models.User(),
           iev = new models.User(),
           drl = new models.User(),
-          rafee = new models.User(),
+          dsyang = new models.User(),
+          hw01 = new models.Assignment(),
+          c15122 = new models.Course(),
+          pixelate = new models.File(),
           assn09 = new models.Assignment(),
           c15150 = new models.Course(),
           fundict = new models.File(),
@@ -44,10 +47,10 @@ module.exports = function(app) {
       vsiao.password = "j2h3nkj";
       vsiao.email = "vsiao@andrew.cmu.edu";
       vsiao.save(function(e) { if(e) console.log(e); });
-      rafee.name = "Rafee";
-      rafee.password = "rafeetalks";
-      rafee.email = "rafee@palantir.com";
-      rafee.save(function(e) { if(e) {console.log(e);}});
+      dsyang.name = "Dan Yang"
+      dsyang.password = "dsyang";
+      dsyang.email = "dsyang@andrew.cmu.edu";
+      dsyang.save(function(e) { if(e) console.log(e); });
       iev.name = "Ian";
       iev.password = "ianleaves";
       iev.email = "iev@cs.cmu.edu";
@@ -71,6 +74,18 @@ module.exports = function(app) {
       c15210.students.push(vsiao._id);
       c15210.save(function(e) { if (e) console.log(e); });
 
+      c15122.name = "15-122";
+      c15122.slug = "15-122";
+      c15122.assignments.push("hw01");
+      c15122.students.push(dsyang._id);
+      c15122.save(function(e) { if (e) console.log(e); });
+
+
+      pixelate.name = "pixelate.c0";
+      pixelate.slug = "pixelate.c0";
+      pixelate.path =
+          application_root + "/data/handins/dsyang/15122/hw01/pixelate.c0";
+      pixelate.save(function(e) {if(e) {console.log(e);}});
       fundict.name = "fundict.sml";
       fundict.slug = "fundict.sml";
       fundict.path =
@@ -98,6 +113,15 @@ module.exports = function(app) {
       assn09.files.push(ordered._id);
       assn09.files.push(serializable._id);
       assn09.save(function(e) { if(e) {console.log(e);}});
+
+      hw01.name = "Homework 01";
+      hw01.slug = "hw01";
+      hw01.course = c15122._id;
+      hw01.user = dsyang._id;
+      hw01.files.push(pixelate._id);
+      hw01.save(function(e) { if(e) {console.log(e);}});
+      dsyang.assignments.push(hw01._id);
+      dsyang.save(function(e) {if(e) {console.log(e);}});
 
       boruvka.name = "BoruvkaMST.sml";
       boruvka.slug = "BoruvkaMST.sml";
@@ -143,4 +167,3 @@ module.exports = function(app) {
     }
   });
 };
-
