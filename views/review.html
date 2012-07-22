@@ -4,26 +4,15 @@
         <a href="/{{course.slug}}">{{course.slug}}</a>/<a href="/{{course.slug}}/{{assn.slug}}">{{assn.slug}}</a>/{{file.name}}
       </div>
     </div>
-    <dl id="code">{{{file.contents}}}</dl>
     <dl id="code">
-      <dt>1</dt><dd class="code"><span class="kw">fun</span> memo (f : D.Key.t -> 'a) : D.key.t -> 'a =</dd>
-      <dt>2</dt><dd class="code">    <span class="kw">let</span></dd>
-      <dt>3</dt><dd class="code">      <span class="kw">val</span> hist : 'a D.dict ref = ref D.empty</dd>
-      <dt>4</dt><dd class="code">      <span class="kw">fun</span> f_memoed x =</dd>
-      <dt>5</dt><dd class="code">          <span class="kw">case</span> D.lookup (!hist) x</dd>
-      <dt>6</dt><dd class="code">            <span class="kw">of</span> SOME v => v</dd>
-      <dt>7</dt><dd class="code">             | NONE let</dd>
-      <dt>8</dt><dd class="code"></dd>
-      <dt>9</dt><dd class="code">        10        20        30        40        50        60        70        80<br />omg overflow</dd>
-      <dt>10</dt><dd class="code"></dd>
-      <dt>11</dt><dd class="code"></dd>
-      <dt>12</dt><dd class="code">\EOF</dd>
+      {{{file.contents}}}
     </dl>
 {{/partial}}
 
 {{#partial "scripts"}}
   <script type="text/template" id="expand-comment-button"><a href="#" class="commentExpand">+</a></script>
   <script type="text/template" id="comment-template">
+      <div class="commentContainer">
         <div class="commentAuthor">
           <a href="#" class="commentAuthorName"><%= authorName %></a>
           <%= isInstructor ? 'Instructor' : '' %>
@@ -31,7 +20,8 @@
         <div class="commentBody">
           <%= comment %>
         </div>
-        <a href="#" class="commentCollapse">-</a>
+      </div class="commentContainer">
+      <a href="#" class="commentCollapse">-</a>
   </script>
   <script type="text/template" id="add-comment-template">
       <dd class="addComment">

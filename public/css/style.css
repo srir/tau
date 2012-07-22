@@ -166,12 +166,9 @@ textarea {
   background: #fff;
 }
 
-#code dd.code.selected {
+#code dd.code.selected,
+#code dd.code.highlight {
   background: #fff;
-}
-
-#code .kw {
-  color: #b58700;
 }
 
 #code dd.hasCollapsedComment {
@@ -183,7 +180,7 @@ textarea {
   background: #dc9917;
   border-radius: 0 2px 2px 0;
   color: #ddd;
-  display: block;
+  display: none;
   font-size: 18px;
   height: 18px;
   position: absolute;
@@ -192,13 +189,13 @@ textarea {
   width: 17px;
 }
 
-#code .commentCollapse {
+#code dd.comment.first .commentCollapse {
+  display: block;
   top: 0;
 }
 
 #code .commentExpand {
   bottom: -1px;
-  display: none;
 }
 
 #code .commentCollapse:hover,
@@ -211,15 +208,11 @@ textarea {
   display: block;
 }
 
-#code dd.addComment,
-#code dd.comment {
-  padding: 10px;
-}
-
 #code dd.addComment {
   background: #d6f773;
   border-color: #858900;
   border-right: 1px solid #858900;
+  padding: 10px;
 }
 
 #code textarea {
@@ -239,6 +232,17 @@ textarea {
   background: #f7fa97;
   border-color: #dc9917;
   border-right: 1px solid #dc9917;
+  padding: 0 5px 5px;
+  width: 650px;
+}
+
+#code dd.comment.first {
+  padding-top: 5px;
+}
+
+.commentContainer {
+  background-color: #fff;
+  padding: 10px;
 }
 
 .commentAuthor {

@@ -16,6 +16,12 @@ $(function() {
     new Comment({
       authorName: 'Sri Raghavan',
       isInstructor: false,
+      lineRange: {from: 9, to: 9},
+      comment: ':-('
+    }),
+    new Comment({
+      authorName: 'Sri Raghavan',
+      isInstructor: false,
       lineRange: {from: 1, to: 3},
       comment: 'herp derp'
     })
@@ -35,9 +41,9 @@ $(function() {
       return this;
     },
     commentCollapse: function(event) {
-      // TODO(vsiao) collapse all comments at this line
       var comment = $(event.target).closest('dd.comment');
-      comment.slideUp(200, function() {
+      comment.nextUntil('dt').slideUp(200);
+      $(comment).slideUp(200, function() {
         $(this).prev().addClass('hasCollapsedComment');
       });
       return false;
@@ -47,13 +53,13 @@ $(function() {
                       this.model.attributes.lineRange.from;
       var lines = this.$el.prevAll('dd.code').slice(0, num_lines + 1);
       // FIXME(vsiao) maybe use another color
-      lines.addClass('selected');
+      lines.addClass('highlight');
     },
     unhighlightRange: function() {
       var num_lines = this.model.attributes.lineRange.to -
                       this.model.attributes.lineRange.from;
       var lines = this.$el.prevAll('dd.code').slice(0, num_lines + 1);
-      lines.removeClass('selected');
+      lines.removeClass('highlight');
     }
   });
 
@@ -82,22 +88,26 @@ $(function() {
       this.addAll();
     },
     addComment: function(comment) {
-
-    },
-    addAll: function() {
-      comments.each(_.bind(function(comment) {
-        var view = new CommentView({model: comment});
-        var idx = comment.attributes.lineRange.to - 1;
-        var line = this.codeLines[idx];
+      var view = new CommentView({model: comment});
+      var idx = comment.attributes.lineRange.to - 1;
+      var line = this.codeLines[idx];
+      var elem = $(view.render().el);
+      if ($(line.nextElementSibling).hasClass('comment')) {
+        var line = $(line).nextUntil('dt').eq(-1).get(0);
+      } else {
+        elem.addClass('first');
         var button = _.template($('#expand-comment-button').html())();
         line.innerHTML += button;
-        $(view.render().el).insertAfter(line);
-      }, this));
+      }
+      elem.insertAfter(line);
+    },
+    addAll: function() {
+      comments.each(_.bind(this.addComment, this));
     },
     commentExpand: function(event) {
       var line = $(event.target).closest('dd.code');
       line.removeClass('hasCollapsedComment');
-      line.next().slideDown(200);
+      line.nextUntil('dt').slideDown(200);
       return false;
     },
     setSelection: function(startLine, endLine) {
@@ -140,8 +150,8 @@ $(function() {
       var on_target =
         $(event.target).closest('dd.code, dd.comment').get(0);
       if (this.startLine && on_target) {
-        //beginCommenting(selectedLines);
-        console.log(this.selectedLines.map(getLineNumber));
+        // TODO(vsiao)
+        // beginCommenting(selectedLines);
       } else {
         //form.slideUp(200).remove();
         $(this.selectedLines).removeClass('selected');
