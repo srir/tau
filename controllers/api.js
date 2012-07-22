@@ -47,16 +47,62 @@ module.exports = function(app) {
         });
     });
 
-<<<<<<< HEAD
-
-
-  app.get('/api/user/:userid/course/:courseid/assignments/:assignid', //authUtils.ensureAuthenticated,
+  app.post('/api/user/:userid/course', //authUtils.ensureAuthenticated,
     function(req, res) {
-      m.Assignment.findById(req.params.assignid).populate('files').exec(
+      var c = new m.Course(),
+          u = {'_id':req.params.userid};// = req.user;
+      c.name = req.body.name;
+      c.slug = req.body.slug;
+      c.staff.push(u._id);
+      c.save(function(err) {
+          if (!err) {
+              res.send(ok({course: c}));
+          } else {
+              console.log(err);
+              res.send(notok("Saving course failed!"));
+          }
+      });
+    });
+
+
+  app.get('/api/user/:userid/course/:courseid/assignments',
+          //authUtils.ensureAuthenticated,
+         function(req, res) {
+             console.log(req.params);
+             // if(req.params.userid != req.user._id) {
+             //     res.send(notok("Userid does not match user logged in."));
+             // }
+             m.User.findById(req.params.userid).populate('assignments')
+                 .exec(function(err, user){
+                     console.log(user);
+                     var ass;
+                     if(!err) {
+                         ass = _.filter(user.assignments, function(e) {
+                             console.log(e.course);
+                             return (e.course == req.params.courseid);
+                         });
+                         console.log(ass);
+                         res.send(ok({"assignments": ass}));
+                     } else {
+                         console.log(err);
+                         res.send(notok("not ok."));
+                     }
+                 });
+  });
+
+  app.get('/api/user/:userid/course/:courseid/assignments/:assignslug', //authUtils.ensureAuthenticated,
+    function(req, res) {
+      m.Assignment.findOne({ user: req.params.userid,
+                          course: req.params.courseid,
+                          slug: req.params.assignslug
+                        }).populate('files').exec(
         function(err, assignment){
+          console.log(assignment.files);
+          console.log(assignment);
           if(!err){
             if(assignment){
-              files = _.map(assignment.files,
+              console.log(assignment.files);
+              var files = _.map(assignment.files,
                 function(file){
                   return {name: file.name,
                           timestamp: file.timestamp,
@@ -70,6 +116,81 @@ module.exports = function(app) {
             console.log(err);
           }
         });
+    });
+
+  app.post('/api/course/:courseid/assignments', //authUtils.ensureAuthenticated,
+    function(req, res) {
+      m.Course.findById(req.params.courseid, function(err, course){
+        if(!err){
+          if(course){
+            course.assignments.push(req.body.assignment);
+            course.save(function(err){
+              if(!err){
+                res.send(ok({assignment: req.body.assignment}));
+              }else{
+                console.log(err);
+              }
+            });
+          }else{
+            res.send(notok("Course not found"));
+          }
+        }else{
+          console.log(err);
+        }
+      });
+    });
+
+  app.get('/api/course/:courseid/users', //authUtils.ensureAuthenticated,
+    function(req, res) {
+      m.Course.findById(req.params.courseid).populate('staff').populate(
+        'students').exec(function(err, course){
+          if(!err){
+            if(course){
+              var users = course.staff.concat(course.students)
+              res.send(ok({users: users}));
+            }else{
+              res.send(notok("Course not found"));
+            }
+          }else{
+            console.log(err);
+          }
+        });
+    });
+
+  app.post('/api/course/:courseid/users', //authUtils.ensureAuthenticated,
+    function(req, res) {
+      m.Course.findById(req.params.courseid, function(err, course){
+        if(!err){
+          if(course){
+            if(req.body.type = 'staff'){
+              course.staff.push(req.body.userid);
+              course.save(function(err){
+                if(!err){
+                  res.send(ok({user: req.body.userid}));
+                }else{
+                  console.log(err);
+                }
+              });
+            }else if(req.body.type = 'student'){
+              course.students.push(req.body.userid);
+              course.save(function(err){
+                if(!err){
+                  res.send(ok({user: req.body.userid}));
+                }else{
+                  console.log(err);
+                }
+              });
+            }else{
+              res.send(notok("Invalid user type"));
+            }
+            res.send(ok({user: req.body.userid}));
+          }else{
+            res.send(notok("Course not found"));
+          }
+        }else{
+          console.log(err);
+        }
+      });
     });
 
   app.get('/api/file/:fileid/comments', //authUtils.ensureAuthenticated,
@@ -119,50 +240,6 @@ module.exports = function(app) {
           }
         });
     });
-=======
-  app.post('/api/user/:userid/course', //authUtils.ensureAuthenticated,
-    function(req, res) {
-      var c = new m.Course(),
-          u = {'_id':req.params.userid};// = req.user;
-      c.name = req.body.name;
-//      c.slug = req.body.slug;
-      c.staff.push(u._id);
-      c.save(function(err) {
-          if (!err) {
-              res.send(ok({course: c}));
-          } else {
-              console.log(err);
-              res.send(notok("Saving course failed!"));
-          }
-      });
-    });
-
-
-  app.get('/api/user/:userid/course/:courseid/assignments',
-          //authUtils.ensureAuthenticated,
-         function(req, res) {
-             console.log(req.params);
-             // if(req.params.userid != req.user._id) {
-             //     res.send(notok("Userid does not match user logged in."));
-             // }
-             m.User.findById(req.params.userid).populate('assignments')
-                 .exec(function(err, user){
-                     console.log(user);
-                     var ass;
-                     if(!err) {
-                         ass = _.filter(user.assignments, function(e) {
-                             console.log(e.course);
-                             return (e.course == req.params.courseid);
-                         });
-                         console.log(ass);
-                         res.send(ok({"assignments": ass}));
-                     } else {
-                         console.log(err);
-                         res.send(notok("not ok."));
-                     }
-                 });
-  });
->>>>>>> some apis
 
   app.get('/review', function(req, res) {
     res.render('review');

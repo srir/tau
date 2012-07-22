@@ -34,7 +34,7 @@ module.exports = (function () {
 
   var CourseSchema = new Schema({
     name:         { type: String, required: true },
-    slug:       { type: String, unique: true },
+    slug:         { type: String, unique: true },
     staff:        [{ type: ObjectId, ref: 'User', required: true }],
     students:     [{ type: ObjectId, ref: 'User' }],
     assignments:  [String]
