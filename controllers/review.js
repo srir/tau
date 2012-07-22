@@ -60,10 +60,8 @@ module.exports = function(app) {
           console.log(course.staff);
           console.log(req.user._id);
           console.log(assn.user);
-          if (!((req.user._id === assn.user) ||
-                _.filter(course.staff, function(e) {return e.toString() === req.user._id.toString();}).length === 1)) {
+          if (!((req.user._id === assn.user) || auth.isStaff(req.user, course))) {
             console.log("not the right student.");
-            //res.send("no permissions!");
             res.render('auth/no_permissions');
         }
         var file = _.find(assn.files, function (file) {
