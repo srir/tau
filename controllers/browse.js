@@ -2,9 +2,10 @@ module.exports = function(app) {
   var models = require('../models'),
     auth    = require('../authUtil'),
     _       = require('lodash'),
-    errors  = require('express-errors');
+    errors  = require('express-errors'),
+    mw      = require('../middleware');
 
-  app.get('/:courseid/:assnid', function(req, res, next) {
+  app.get('/:courseid/:assnid', mw.is_staff, function(req, res, next) {
       if(!req.isAuthenticated()) {res.redirect('/auth/login')}
     else {
     var courseid = req.params.courseid,
@@ -33,7 +34,7 @@ module.exports = function(app) {
     })
 }  });
 
-  app.get('/:courseid', function(req, res, next) {
+  app.get('/:courseid', mw.is_staff, function(req, res, next) {
     if(!req.isAuthenticated()) {res.redirect('/auth/login')}
     else {
     var courseid = req.params.courseid;

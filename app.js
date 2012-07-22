@@ -8,12 +8,12 @@ var application_root  = __dirname,
   path          = require('path'),
   errors        = require('express-errors');
 
-var models      = require('./models'),
-  authUtil      = require('./authUtil'),
-  viewUtil      = require('./viewUtil'),
-
 app = express.createServer();
 mongoose.connect("mongodb://localhost/tau");
+
+var models      = require('./models'),
+  authUtil      = require('./authUtil'),
+  viewUtil      = require('./viewUtil');
 
 app.configure(function(){
   // the bodyParser middleware parses JSON request bodies
