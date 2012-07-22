@@ -215,7 +215,6 @@ module.exports = function(app) {
             }else{
               res.send(notok("Invalid user type"));
             }
-            res.send(ok({user: req.body.userid}));
           }else{
             res.send(notok("Course not found"));
           }
@@ -255,15 +254,21 @@ module.exports = function(app) {
               comment.startChar = req.body.startChar;
               comment.endLine = req.body.endLine;
               comment.endChar = req.body.endChar;
-              file.comments.push(comment);
-              file.save(
-                function(err){
-                  if(!err){
-                    res.send(ok({comment: comment}));
-                  }else{
-                    res.send(notok("Could not save file comment"));
-                  }
-                });
+              comment.save(function(err){
+                if(!err){
+                  file.comments.push(comment);
+                  file.save(
+                    function(err){
+                      if(!err){
+                        res.send(ok({comment: comment}));
+                      }else{
+                        res.send(notok("Could not save file comment"));
+                      }
+                    });
+                }else{
+                  console.log(err);
+                }
+              });
             }else{
               res.send(notok("File not found"));
             }
