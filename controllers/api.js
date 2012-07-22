@@ -113,6 +113,18 @@ module.exports = function(app) {
         });
     });
 
+  app.get('/api/course/:courseid/assignments/:assignid',
+         //authUtils.ensureAuthenticated,
+          function(req, res) {
+              m.Course.findById(req.params.courseid).populate('students')
+              .exec(function(err, course) {
+                  console.log(course);
+                  res.send(course);
+              });
+
+    });
+
+
   app.get('/api/file/:fileid/comments', //authUtils.ensureAuthenticated,
     function(req, res) {
       m.File.findById(req.params.fileid).populate('comments').exec(

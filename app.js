@@ -57,6 +57,7 @@ app.post('/dev/populate', function(req, res) {
         drl = new models.User(),
         rafee = new models.User(),
         assn09 = new models.Assignment(),
+        assn09a = new models.Assignment(),
         assn10 = new models.Assignment(),
         c15150 = new models.Course(),
         c15122 = new models.Course(),
@@ -83,6 +84,7 @@ app.post('/dev/populate', function(req, res) {
     drl.save(function(e) { if(e) {console.log(err);}});
 
     c15150.name = "15-150";
+    c15150.slug = "15150;"
     c15150.assignments.push("assn09");
     c15150.staff.push(iev._id);
     c15150.staff.push(drl._id);
@@ -93,6 +95,7 @@ app.post('/dev/populate', function(req, res) {
     });
 
     c15122.name = "15-122";
+    c15122.slug = "15122"
     c15122.assignments.push("oh god");
     c15122.staff.push(iev._id);
     c15122.students.push(sri._id);
@@ -136,19 +139,26 @@ app.post('/dev/populate', function(req, res) {
     assn09.files.push(fundict._id);
     assn09.files.push(ordered._id);
     assn09.files.push(serializable._id);
-    assn09.save(function(e) { if(e) {console.log(err);}});
+    assn09.save(function(e) { if(e) {console.log(e);}});
 
+    assn09a.name = "Assignment 09";
+    assn09a.slug = "assn09";
+    assn09a.course = c15150._id;
+    assn09a.user = rafee._id;
+    assn09a.save(function(e) { if(e) {console.log(e);}});
 
     assn10.name = "Assignment 10";
     assn10.slug = "assn10";
     assn10.course = c15122._id;
     assn10.user = sri._id;
-    assn10.save(function(e) { if(e) {console.log(err);}});
+    assn10.save(function(e) { if(e) {console.log(e);}});
+
 
     sri.assignments.push(assn09._id);
     sri.assignments.push(assn10._id);
+    rafee.assignments.push(assn09a._id);
     sri.save(function(e) { if(e) {console.log(err);}});
-
+    rafee.save(function(e) { if(e) {console.log(err);}});
 
     res.send("OK");
 });
