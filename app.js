@@ -58,6 +58,7 @@ require('./controllers/misc')(app);
 
 errors.bind(app, { layout: false, logger: null });
 
-app.listen(3000, function() {
-  console.log("App listening on port %d in %s mode", 3000, app.settings.env);
+var port = process.env.PORT || 3000;
+app.listen(port, function() {
+  console.log("App listening on port %d in %s mode", port, app.settings.env);
 });
