@@ -38,7 +38,10 @@ module.exports = function(app) {
           ordered = new models.File(),
           assn07 = new models.Assignment(),
           c15210 = new models.Course(),
-          boruvka = new models.File();
+          boruvka = new models.File()
+          boruvkacomment = new models.Comment(),
+          funcomment1 = new models.Comment(),
+          funcomment2 = new models.Comment();
       sri.name = "Sri";
       sri.password = ".";
       sri.email = "srikrish@andrew.cmu.edu";
@@ -80,7 +83,20 @@ module.exports = function(app) {
       c15122.students.push(dsyang._id);
       c15122.save(function(e) { if (e) console.log(e); });
 
+      funcomment1.text = "Your style is bad and you should feel bad";
+      funcomment1.user = sri._id;
+      funcomment1.timestamp = new Date();
+      funcomment1.startLine = 34;
+      funcomment1.endLine = 34;
+      funcomment1.save(function(e) { if(e) {console.log(e);}});
 
+      funcomment2.text = "Very nicely done.";
+      funcomment2.user = iev._id;
+      funcomment2.timestamp = new Date();
+      funcomment2.startLine = 13;
+      funcomment2.endLine = 20;
+      funcomment2.save(function(e) { if(e) {console.log(e);}});
+      
       pixelate.name = "pixelate.c0";
       pixelate.slug = "pixelate.c0";
       pixelate.path =
@@ -91,6 +107,8 @@ module.exports = function(app) {
       fundict.path =
           application_root + "/data/handins/srikrish/15150/assn09/fundict.sml";
       fundict.timestamp = new Date();
+      fundict.comments.push(funcomment1);
+      fundict.comments.push(funcomment2);
       fundict.save(function(e) { if(e) {console.log(e);}});
       ordered.name = "ordered.sml";
       ordered.slug = "ordered.sml";
@@ -123,11 +141,19 @@ module.exports = function(app) {
       dsyang.assignments.push(hw01._id);
       dsyang.save(function(e) {if(e) {console.log(e);}});
 
+      boruvkacomment.text = "Explain more!";
+      boruvkacomment.user = dsyang._id;
+      boruvkacomment.timestamp = new Date();
+      boruvkacomment.startLine = 37;
+      boruvkacomment.startLine = 39;
+      boruvkacomment.save(function(e) { if(e) {console.log(e);}});
+
       boruvka.name = "BoruvkaMST.sml";
       boruvka.slug = "BoruvkaMST.sml";
       boruvka.path =
         application_root + "/data/handins/vsiao/15210/assn07/BoruvkaMST.sml";
       boruvka.timestamp = new Date();
+      boruvka.comments.push(boruvkacomment);
       boruvka.save(function(e) { if (e) console.log(e); });
       assn07.name = "Assignment 07";
       assn07.slug = "assn07";
