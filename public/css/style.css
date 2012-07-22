@@ -166,11 +166,11 @@ textarea {
 }
 
 #code dd.code {
+  cursor: pointer;
   font-family: 'Inconsolata';
   letter-spacing: 0.5px;
   min-height: 17px;
   white-space: pre;
-  cursor: pointer;
 }
 
 #code dd.code .kw {
@@ -319,4 +319,18 @@ textarea {
 
 .commentBody {
   font-size: 13px;
+}
+
+.assignment a,
+.file a {
+  display: block;
+  padding: 8px 16px;
+  width: 659px;
+}
+
+.assignment a:hover,
+.file a:hover {
+  background: #1777a4;
+  color: #fff;
+  text-decoration: none;
 }
