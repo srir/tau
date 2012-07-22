@@ -6,33 +6,16 @@ var application_root = __dirname,
   mongoose      = require('mongoose'),
   cons          = require('consolidate'),
   path          = require('path'),
-  models        = require('./models');
+  models        = require('./models'),
+  authUtil      = require('./authUtil'),
+  viewUtil      = require('./viewUtil');
 
-require('./viewUtil');
 
 // var drl = new models.User();
 // drl.name = "Dr. Dan";
 // drl.email = "drl@cs.cmu.edu";
 // drl.password = "root";
 // drl.save(function (err) { console.log(err); });
-
-passport.use(new LocalStrategy(
-  function(email, password, done) {
-    models.User.findOne({ email: email, password: password }, function (err, user) {
-      done(err, user);
-    });
-  }
-));
-
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
-});
-
-passport.deserializeUser(function(id, done) {
-  models.User.findById(id, function (err, user) {
-    done(err, user);
-  });
-});
 
 app = express.createServer();
 mongoose.connect("mongodb://localhost/tau");
@@ -63,43 +46,8 @@ app.get('/', function(req, res) {
   });
 });
 
-app.get('/review', function(req, res) {
-  res.render('review');
-})
-
-app.get('/login', function(req, res){
-    var data = { title: "Tau login",
-                 message: req.flash('error')
-               };
-  res.render('login', data);
-});
-
-app.post('/login', passport.authenticate('local', { failureRedirect: '/login',
-                                                    failureFlash: "Invalid Credentials"}),
-  function (req, res) {
-    res.redirect('/account');
-});
-
-app.get('/logout', function(req, res){
-  var data = { title: "Tau logout",
-               }
-  req.logout();
-  res.render('logout', data);
-});
-
-app.get('/account', ensureAuthenticated, function(req, res) {
-    var data = { title: "Tau account",
-                 user: req.user,
-               }
-    res.render('account', data);
-});
-
-
-//login decorators
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
-}
+require('./controllers/auth')(app);
+require('./controllers/review')(app);
 
 app.listen(3000, function() {
   console.log("App listening on port %d in %s mode", 3000, app.settings.env);
