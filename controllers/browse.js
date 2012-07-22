@@ -5,7 +5,7 @@ module.exports = function(app) {
     errors  = require('express-errors');
 
   app.get('/:courseid/:assnid', function(req, res, next) {
-    if(!req.isAuthenticated()) {res.redirect('/auth/login')}
+      if(!req.isAuthenticated()) {res.redirect('/auth/login')}
     else {
     var courseid = req.params.courseid,
       assnid = req.params.assnid;
@@ -18,12 +18,9 @@ module.exports = function(app) {
       .exec(function (err, assn) {
       if (err) return next(new Error("Internal Server Error"));
       if (assn === null) return next(errors.NotFound);
-          console.log(assn.user);
-          console.log(req.user._id);
-          console.log(course.staff);
       if(!(auth.isAuthor(req.user, assn) || auth.isStaff(req.user, course))) {
-          console.log("No permissions!");
-          res.render('auth/no_permissions');
+            console.log("No permissions!");
+            res.redirect('/auth/no_permissions');
       }
        res.render('browse/assignment', {
           course:   { name: course.name, slug: course.slug },
@@ -37,6 +34,8 @@ module.exports = function(app) {
 }  });
 
   app.get('/:courseid', function(req, res, next) {
+    if(!req.isAuthenticated()) {res.redirect('/auth/login')}
+    else {
     var courseid = req.params.courseid;
     models.Course.findOne({ slug: courseid }, function(err, course) {
       if (err) return next(new Error("Internal Server Error"));
@@ -46,6 +45,11 @@ module.exports = function(app) {
       .exec(function (err, assns) {
         if (err) return next(new Error("Internal Server Error"));
         if (assns === null) return next(errors.NotFound);
+        if(!(auth.isAuthor(req.user, assn[0]) || auth.isStaff(req.user, course))) {
+            console.log("No permissions!");
+            res.redirect('/auth/no_permissions');
+        }
+
         res.render('browse/course', {
           course:   { name: course.name, slug: course.slug },
           assns: _(assns).map(function (assn) {
@@ -54,5 +58,5 @@ module.exports = function(app) {
         });
       });
     });
-  });
+   } });
 };

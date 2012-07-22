@@ -22,9 +22,13 @@ module.exports = function(app) {
   });
 
   app.get('/auth/logout', function(req, res){
-    var data = { title: "Tau logout" };
-    req.logout();
-    res.render('auth/logout', data);
+      var data = { title: "Tau logout" };
+      req.logout();
+      res.render('auth/logout', data);
+  });
+
+  app.get('/auth/no_permissions', function(req, res){
+      res.render('auth/no_permissions');
   });
 
   app.get('/account', authUtil.ensureAuthenticated, function(req, res) {
