@@ -58,7 +58,7 @@ $(function() {
     },
     commentCollapse: function(event) {
       var comment = $(event.target).closest('dd.comment');
-      comment.nextUntil('dt').slideUp(200);
+      comment.nextUntil('dt', 'dd.comment').slideUp(200);
       $(comment).slideUp(200, function() {
         $(this).prev().addClass('hasCollapsedComment');
       });
@@ -88,6 +88,7 @@ $(function() {
     codeLines: $('dd.code').get(),
     selectedLines: [],
     startLine: null,
+    commentFormTemplate: _.template($('#add-comment-template').html()),
     commenting: false,
     events: {
       'mousedown dd.code' : 'onMouseDown',
@@ -166,8 +167,7 @@ $(function() {
       var on_target =
         $(event.target).closest('dd.code, dd.comment').get(0);
       if (this.startLine && on_target) {
-        // TODO(vsiao)
-        // beginCommenting(selectedLines);
+        this.beginComment(this.selectedLines);
       } else {
         //form.slideUp(200).remove();
         $(this.selectedLines).removeClass('selected');
@@ -175,11 +175,34 @@ $(function() {
       }
       this.startLine = null;
     },
-    cancelComment: function() {
-
+    beginComment: function(lines) {
+      this.commenting = true;
+      _.each(lines, function(line) {
+        var next = $(line.nextElementSibling);
+        if (next.hasClass('comment')) {
+          next.find('.commentCollapse').click();
+        }
+      });
+      var last_line = lines[lines.length-1];
+      var old_comments = $(last_line).nextUntil('dt').get();
+      var form = $(this.commentFormTemplate());
+      if (old_comments.length) {
+        form.insertAfter(old_comments[old_comments.length-1]).slideDown(200);
+      } else {
+        form.insertAfter(last_line).slideDown(200);;
+      }
+    },
+    cancelComment: function(event) {
+      $(event.target).closest('.addComment').slideUp(200, _.bind(function() {
+        $(this.selectedLines).removeClass('selected');
+        this.selectedLines = [];
+        this.commenting = false;
+        $(this).remove();
+      }, this));
+      return false;
     },
     submitComment: function() {
-
+      
     }
   });
 
