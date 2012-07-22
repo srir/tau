@@ -11,7 +11,7 @@ GET - all assigments for a user for a course (DONE)
 /user/<id>/course/<id>/assignments/<name>
 GET - all files for an assignment (DONE)
 
-/course/<id>/assignments/<name>
+/course/<id>/assignments/<id>
 GET - all assignments for a course that has a specific name
 
 /course/<id>/assignments

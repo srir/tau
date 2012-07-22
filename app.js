@@ -63,6 +63,7 @@ app.post('/dev/populate', function(req, res) {
         fundict = new models.File(),
         serializable = new models.File(),
         ordered = new models.File();
+        comment = new models.Comment();
 
     sri.name = "Sri";
     sri.password = ".";
@@ -117,6 +118,15 @@ app.post('/dev/populate', function(req, res) {
     serializable.path =
         application_root+"/data/handins/srikrish/15150/assn09/serializable.sml";
     serializable.timestamp = new Date();
+    comment.text = "VINCEEEEEENT!"
+    comment.user = sri._id;
+    comment.timestamp = new Date();
+    comment.startLine = 6;
+    comment.endLine = 42;
+    comment.startChar = 4;
+    comment.endChar = 8;
+    comment.save(function(e) { if(e) {console.log(err);}});
+    serializable.comments.push(comment);
     serializable.save(function(e) { if(e) {console.log(err);}});
 
     assn09.name = "Assignment 09";
