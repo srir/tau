@@ -218,7 +218,10 @@ module.exports = function(app) {
         });
       });
     } else {
-      res.end("Splash page");
+      data = {
+        title: "Tau login"
+      };
+      res.render("auth/login", data);
     }
   });
 };

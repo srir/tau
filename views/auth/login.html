@@ -1,10 +1,19 @@
-{{#partial "content"}}
-    <div class="contentHeader">
-      <h2>Login</h2>
-    </div>
-    <p>{{message}}</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>tau</title>
+  <link href="/css/style.css" rel="stylesheet" type="text/css" />
+  <link href="http://fonts.googleapis.com/css?family=Inconsolata"
+    rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="logo">
+      <img src="/images/tau.png" alt="tau" />
+    </a>
     <form method="POST" action="/auth/login">
-      <fieldset><legend>Login</legend>
+      <fieldset><legend><h2>Login</h2></legend>
         <div>
           <label for="username">School Email:</label>
           <input type="text" id="username" name="username">
@@ -17,6 +26,6 @@
           <input type="submit" name="submit" id="submit" value="login">
         </div>
     </form>
-{{/partial}}
-
-{{> base }}
+  </div>
+</body>
+</html>
