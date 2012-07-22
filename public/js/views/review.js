@@ -23,8 +23,9 @@ $(function() {
     template: _.template($('#comment-template').html()),
     events: {
       'click .commentCollapse': 'commentCollapse',
+      'click .commentReply'   : 'commentReply',
       'mouseenter': 'highlightRange',
-      'mouseleave': 'unhighlightRange',
+      'mouseleave': 'unhighlightRange'
     },
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
@@ -36,6 +37,10 @@ $(function() {
       $(comment).slideUp(200, function() {
         $(this).prev().addClass('hasCollapsedComment');
       });
+      return false;
+    },
+    commentReply: function(event) {
+      this.model.trigger('reply', this.model.attributes);
       return false;
     },
     highlightRange: function() {
@@ -65,15 +70,16 @@ $(function() {
     commentFormTemplate: _.template($('#add-comment-template').html()),
     commenting: false,
     events: {
-      'mousedown dd.code' : 'onMouseDown',
-      'mouseenter dd.code' : 'onMouseEnter',
-      'click .commentExpand'  : 'commentExpand',
+      'mousedown dd.code'   : 'onMouseDown',
+      'mouseenter dd.code'  : 'onMouseEnter',
+      'click .commentExpand': 'commentExpand',
       'click .addComment .cancel' : 'cancelComment',
-      'click .addComment .submit' : 'submitComment',
+      'click .addComment .submit' : 'submitComment'
     },
     initialize: function() {
       $(document).mouseup(_.bind(this.onMouseUp, this));
       Comments.on('reset', this.render, this);
+      Comments.on('reply', this.commentReply, this);
       this.render();
     },
     render: function() {
@@ -101,6 +107,11 @@ $(function() {
       line.removeClass('hasCollapsedComment');
       line.nextUntil('dt').slideDown(200);
       return false;
+    },
+    commentReply: function(commentData) {
+      this.setSelection(this.codeLines[commentData.lineRange.from-1],
+                        this.codeLines[commentData.lineRange.to-1]);
+      this.beginComment(this.selectedLines, true);
     },
     setSelection: function(startLine, endLine) {
       $(this.selectedLines).removeClass('selected');
@@ -142,7 +153,7 @@ $(function() {
       var on_target =
         $(event.target).closest('dd.code, dd.comment').get(0);
       if (this.startLine && on_target) {
-        this.beginComment(this.selectedLines);
+        this.beginComment(this.selectedLines, false);
       } else {
         //form.slideUp(200).remove();
         $(this.selectedLines).removeClass('selected');
@@ -151,9 +162,13 @@ $(function() {
       this.startLine = null;
       return false;
     },
-    beginComment: function(lines) {
+    beginComment: function(lines, isReply) {
       this.commenting = true;
       _.each(lines, function(line) {
+        if (line === lines[lines.length-1] && isReply) {
+          // Don't collapse final line on comment replies
+          return;
+        }
         var next = $(line.nextElementSibling);
         if (next.hasClass('comment')) {
           next.find('.commentCollapse').click();

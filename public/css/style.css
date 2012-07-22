@@ -321,6 +321,13 @@ textarea {
   font-size: 13px;
 }
 
+.commentReply {
+  font-size: 11px;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+
 .assignment a,
 .file a {
   display: block;
