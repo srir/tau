@@ -66,7 +66,7 @@ $(function() {
     commenting: false,
     events: {
       'mousedown dd.code' : 'onMouseDown',
-      'mouseover dd.code' : 'onMouseOver',
+      'mouseenter dd.code' : 'onMouseEnter',
       'click .commentExpand'  : 'commentExpand',
       'click .addComment .cancel' : 'cancelComment',
       'click .addComment .submit' : 'submitComment',
@@ -77,7 +77,6 @@ $(function() {
       this.render();
     },
     render: function() {
-      console.log("LOLOL");
       this.addAll();
     },
     addComment: function(comment) {
@@ -124,12 +123,12 @@ $(function() {
       if (this.commenting || $(event.target).hasClass('commentExpand')) {
         return;
       }
-      this.startLine = event.target;
+      this.startLine = $(event.target).closest('dd.code').get(0);
       this.setSelection(this.startLine, this.startLine);
       // Disables text highlighting
       return false;
     },
-    onMouseOver: function(event) {
+    onMouseEnter: function(event) {
       if (this.commenting) return;
       var end_line = $(event.target).closest('dd.code').get(0);
       if (this.startLine && end_line) {
@@ -174,12 +173,46 @@ $(function() {
         $(this.selectedLines).removeClass('selected');
         this.selectedLines = [];
         this.commenting = false;
-        $(this).remove();
+        $(event.target).closest('.addComment').remove();
       }, this));
       return false;
     },
-    submitComment: function() {
-      
+    submitComment: function(event) {
+      var userId = $("#code").data('user-id');
+      var userName = $("#code").data('user-name');
+      var fileId = $("#code").data('file-id');
+      var startLine = getLineNumber(this.selectedLines[0]);
+      var endLine = startLine + (this.selectedLines.length - 1);
+      var text = $(event.target).closest('.addComment').find('textarea').val();
+      var timestamp = new Date();
+      var that = this;
+      var comment = {
+        authorName: userName,
+        comment: text,
+        timestamp: timestamp,
+        lineRange: {
+          from: startLine,
+          to: endLine,
+        }
+      }
+
+      $.ajax({
+        type: 'POST',
+        url:  '/api/file/' + fileId + '/comments',
+        data: {
+          timestamp:  timestamp,
+          startLine:  startLine,
+          endLine:    endLine,
+          user:       userId,
+          text:       text
+        },
+        success: function(data) {
+          console.log("YAY!");
+          that.addComment(new Comment(comment));
+          that.cancelComment(event);
+        }
+      });
+      event.preventDefault();
     }
   });
 
