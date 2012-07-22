@@ -17,9 +17,7 @@ module.exports = (function () {
     user:       { type: ObjectId, ref: 'User', required: true } ,
     timestamp:  { type: Date, required: true },
     startLine:  { type: Number, required: true },
-    startChar:  { type: Number, required: true },
     endLine:    { type: Number, required: true },
-    endChar:    { type: Number, required: true }
   });
   models.Comment = mongoose.model('Comment', CommentSchema);
 

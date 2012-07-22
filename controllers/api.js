@@ -251,9 +251,7 @@ module.exports = function(app) {
               comment.user = req.body.user;
               comment.timestamp = req.body.timestamp;
               comment.startLine = req.body.startLine;
-              comment.startChar = req.body.startChar;
               comment.endLine = req.body.endLine;
-              comment.endChar = req.body.endChar;
               comment.save(function(err){
                 if(!err){
                   file.comments.push(comment);
