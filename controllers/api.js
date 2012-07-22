@@ -130,7 +130,9 @@ module.exports = function(app) {
                           m.User.findById(s).populate('assignments')
                               .exec(function (err, u) {
                                   _.map(u.assignments, function(a) {
-                                      if(a.slug === req.params.assignslug) {
+                                      console.log(a);
+                                      if(a.slug === req.params.assignslug &&
+                                        a.course == req.params.courseid) {
                                           console.log(a);
                                           ass.push(a);
                                       }
