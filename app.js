@@ -5,8 +5,7 @@ var application_root  = __dirname,
   flash         = require('connect-flash'),
   mongoose      = require('mongoose'),
   cons          = require('consolidate'),
-  path          = require('path'),
-  sha1          = require('sha1');
+  path          = require('path');
 
 var models      = require('./models'),
   authUtil      = require('./authUtil'),

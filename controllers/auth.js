@@ -1,7 +1,8 @@
 module.exports = function(app) {
   var passport  = require('passport'),
       models    = require('../models'),
-    authUtil    = require('../authUtil');
+    authUtil    = require('../authUtil'),
+    sha1          = require('sha1');
 
   app.get('/login', function(req, res){
     var data = {
@@ -49,7 +50,7 @@ module.exports = function(app) {
         var data = { title: "Tau student signup"
                    },
             newUser;
-        if((req.body.email && req.body.course && req.body.hash
+        if((req.body.email && req.body.course && req.body.hash &&
            sha1(req.body.email+req.body.course)) === req.body.hash) {
             newUser = new models.User();
             newUser.name = req.body.name;
