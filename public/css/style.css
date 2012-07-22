@@ -37,7 +37,7 @@ ul {
 }
 
 textarea {
-  border: 1px solid #999;
+  border: 1px solid #aaa;
   display: block;
   font-family: 'Helvetica', 'Arial', sans-serif;
   font-size: 13px;
@@ -46,6 +46,16 @@ textarea {
 
 .hidden {
   display: none !important;
+}
+
+.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  visibility: hidden;
 }
 
 .container {
@@ -88,7 +98,8 @@ textarea {
   text-decoration: none;
 }
 
-.nav .logoutLink:hover {
+.nav .logoutLink:hover,
+#code .addComment .cancel:hover {
   background-color: #ff5757;
   color: #fff;
 }
@@ -178,9 +189,13 @@ textarea {
   background: #fff;
 }
 
-#code dd.code.selected,
-#code dd.code.highlight {
+#code dd.code.highlight,
+#code dd.code.selected.highlight {
   background: #fff;
+}
+
+#code dd.code.selected {
+  background: #f7fa97;
 }
 
 #code dd.hasCollapsedComment {
@@ -221,17 +236,53 @@ textarea {
 }
 
 #code dd.addComment {
-  background: #d6f773;
-  border-color: #858900;
-  border-right: 1px solid #858900;
+  /*background: #d6f773;*/
+  /*border-color: #858900;*/
+  /*border-right: 1px solid #858900;*/
+  background: #f7fa97;
+  border-color: #999;
+  border-bottom: 1px solid #dc9917;
   padding: 10px;
 }
 
-#code textarea {
+#code .addComment textarea {
+  float: left;
   height: 60px;
-  padding: 5px;
+  padding: 2px;
   resize: none;
-  width: 628px;
+  width: 548px;
+}
+
+#code .addComment .actions {
+  margin-left: 554px;
+  width: 85px;
+}
+
+#code .addComment .actions a {
+  color: #333;
+  display: block;
+  padding: 8px 16px;
+  text-align: center;
+  width: 53px;
+}
+
+#code .addComment .submit {
+  background: #aaa;
+  border-radius: 0 2px 0 0;
+}
+
+#code .addComment .cancel {
+  background: #ccc;
+  border-radius: 0 0 2px;
+}
+
+#code .addComment .actions a:hover {
+  text-decoration: none;
+}
+
+#code .addComment .actions .submit:hover {
+  background: #8ec104;
+  color: #fff;
 }
 
 #code .addCommentOptions {
@@ -244,12 +295,12 @@ textarea {
   background: #f7fa97;
   border-color: #dc9917;
   border-right: 1px solid #dc9917;
-  padding: 0 5px 5px;
-  width: 650px;
+  padding: 0 0 2px;
+  width: 660px;
 }
 
 #code dd.comment.first {
-  padding-top: 5px;
+  padding-top: 2px;
 }
 
 .commentContainer {
