@@ -1,3 +1,40 @@
+var _inComment = false;
+
+function keywordReplace(frag) {
+  return frag.replace(
+    /\b(val|rec|ref|fn|fun|case|of|andalso|orelse|let|local|in|end|functor|structure|signature|sig|struct|if|else|datatype|type)\b/g, 
+    '<span class="kw">$1</span>'
+  ).replace(
+    /\b(SOME|NONE|EQUAL|LESS|GREATER|true|false)\b/g,
+    '<span class="kv">$1</span>'
+  );
+}
+
+function format(line) {
+  var formatted = '';
+  if (_inComment) {
+    formatted = '<span class="cm">';
+    var idx = line.indexOf('*)');
+    if (idx !== -1) {
+      formatted += line.slice(0, idx+2) + '</span>';
+      _inComment = false;
+      formatted += format(line.slice(idx+2, line.length));
+    } else {
+      formatted += line + '</span>'
+    }
+  } else {
+    var idx = line.indexOf('(*');
+    if (idx !== -1) {
+      formatted += keywordReplace(line.slice(0, idx));
+      _inComment = true;
+      formatted += format(line.slice(idx, line.length));
+    } else {
+      formatted += keywordReplace(line);
+    }
+  }
+  return formatted;
+}
+
 module.exports = function(app) {
   var fs = require('fs'),
     models  = require('../models'),
@@ -18,12 +55,13 @@ module.exports = function(app) {
         fs.readFile(file.path, function (err, contents) {
           var idx = 1;
           var annotated = _(contents.toString().split("\n")).map(function (line) {
-            var buf = "", leader = "<dt>" + idx + "</dt>";
+            var buf = "";
+            var leader = "<dt>" + idx + "</dt>";
             while (line.length >= 80) {
-              buf += line.slice(0,80) + "<br/>";
+              buf += format(line.slice(0, 80)) + "<br/>";
               line = line.slice(80, line.length);
             }
-            buf += line;
+            buf += format(line);
             idx++;
             return leader + "<dd class=\"code\">" + buf + "</dd>";
           }).join("\n");

@@ -162,6 +162,18 @@ textarea {
   cursor: pointer;
 }
 
+#code dd.code .kw {
+  color: #b58700;
+}
+
+#code dd.code .kv {
+  color: #2aa197;
+}
+
+#code dd.code .cm {
+  color: #aaa;
+}
+
 #code dd.code:hover {
   background: #fff;
 }
