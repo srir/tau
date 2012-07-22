@@ -31,6 +31,8 @@ module.exports = function(app) {
           hw01 = new models.Assignment(),
           c15122 = new models.Course(),
           pixelate = new models.File(),
+          warhol = new models.File(),
+          findedges = new models.File(),
           assn09 = new models.Assignment(),
           c15150 = new models.Course(),
           fundict = new models.File(),
@@ -132,14 +134,35 @@ module.exports = function(app) {
       assn09.files.push(serializable._id);
       assn09.save(function(e) { if(e) {console.log(e);}});
 
+
+      pixelate.name = "pixelate.c0";
+      pixelate.slug = "pixelate.c0";
+      pixelate.path =
+          application_root + "/data/handins/dsyang/15122/hw01/pixelate.c0";
+      pixelate.timestamp = new Date();
+      pixelate.save(function(e) {if(e) {console.log(e);}});
+      warhol.name = "warhol.c0";
+      warhol.slug = "warhol.c0";
+      warhol.path =
+          application_root + "/data/handins/dsyang/15122/hw01/warhol.c0";
+      warhol.timestamp = new Date();
+      warhol.save(function(e) {if(e) {console.log(e);}});
+      findedges.name = "findedges.c0";
+      findedges.slug = "findedges.c0";
+      findedges.path =
+          application_root + "/data/handins/dsyang/15122/hw01/findedges.c0";
+      findedges.timestamp = new Date();
+      findedges.save(function(e) {if(e) {console.log(e);}});
+
+
       hw01.name = "Homework 01";
       hw01.slug = "hw01";
       hw01.course = c15122._id;
       hw01.user = dsyang._id;
       hw01.files.push(pixelate._id);
+      hw01.files.push(warhol._id);
+      hw01.files.push(findedges._id);
       hw01.save(function(e) { if(e) {console.log(e);}});
-      dsyang.assignments.push(hw01._id);
-      dsyang.save(function(e) {if(e) {console.log(e);}});
 
       boruvkacomment.text = "Explain more!";
       boruvkacomment.user = dsyang._id;
@@ -166,6 +189,10 @@ module.exports = function(app) {
 
       sri.assignments.push(assn09._id);
       sri.save(function(e) { if(e) {console.log(e);}});
+
+      dsyang.assignments.push(hw01._id);
+      dsyang.save(function(e) {if(e) {console.log(e);}});
+
 
       res.send("OK");
   });
