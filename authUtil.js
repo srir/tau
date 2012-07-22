@@ -32,3 +32,7 @@ exports.isStaff = function (user, course) {
                          return e.toString() === user._id.toString();
                      }).length > 0;
 };
+
+exports.isAuthor = function (user, assn) {
+    return (user._id.toString() === assn.user.toString());
+};
