@@ -91,13 +91,19 @@ module.exports = function(app) {
                  });
   });
 
-  app.get('/api/user/:userid/course/:courseid/assignments/:assignid', //authUtils.ensureAuthenticated,
+  app.get('/api/user/:userid/course/:courseid/assignments/:assignslug', //authUtils.ensureAuthenticated,
     function(req, res) {
-      m.Assignment.findById(req.params.assignid).populate('files').exec(
+      m.Assignment.findOne({ user: req.params.userid,
+                          course: req.params.courseid,
+                          slug: req.params.assignslug
+                        }).populate('files').exec(
         function(err, assignment){
+          console.log(assignment.files);
+          console.log(assignment);
           if(!err){
             if(assignment){
-              files = _.map(assignment.files,
+              console.log(assignment.files);
+              var files = _.map(assignment.files,
                 function(file){
                   return {name: file.name,
                           timestamp: file.timestamp,
