@@ -8,6 +8,7 @@ lib-cov
 *.gz
 *.swo
 *.swp
+.DS_STORE
 
 pids
 logs

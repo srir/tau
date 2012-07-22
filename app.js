@@ -176,6 +176,7 @@ require('./controllers/auth')(app);
 require('./controllers/browse')(app);
 require('./controllers/review')(app);
 require('./controllers/api')(app);
+require('./controllers/misc')(app);
 
 app.listen(3000, function() {
   console.log("App listening on port %d in %s mode", 3000, app.settings.env);

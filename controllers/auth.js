@@ -4,15 +4,15 @@ module.exports = function(app) {
     authUtil    = require('../authUtil'),
     sha1          = require('sha1');
 
-  app.get('/login', function(req, res){
+  app.get('/auth/login', function(req, res){
     var data = {
       title: "Tau login",
       message: req.flash('error')
     };
-    res.render('login', data);
+    res.render('auth/login', data);
   });
 
-  app.post('/login',
+  app.post('/auth/login',
     passport.authenticate('local', {
       failureRedirect: '/login',
       failureFlash: "Invalid Credentials"
@@ -21,13 +21,13 @@ module.exports = function(app) {
       res.redirect('/account');
   });
 
-  app.get('/logout', function(req, res){
+  app.get('/auth/logout', function(req, res){
     var data = { title: "Tau logout" };
     req.logout();
-    res.render('logout', data);
+    res.render('auth/logout', data);
   });
 
-  app.get('/account', authUtil.ensureAuthenticated, function(req, res) {
+  app.get('/auth/account', authUtil.ensureAuthenticated, function(req, res) {
     var data = {
       title: "Tau account",
       user: req.user
@@ -36,17 +36,17 @@ module.exports = function(app) {
   });
 
 
-    app.get('/signup/:hash?', function(req, res) {
+    app.get('/auth/signup/:hash?', function(req, res) {
         var data = { title: "Tau student signup",
                      message: req.flash('error')
                    };
         if(req.params.hash) {
             data.hash = hash;
         }
-        res.render('signup', data);
+        res.render('auth/signup', data);
     });
 
-    app.post('/signup', function(req, res) {
+    app.post('/auth/signup', function(req, res) {
         var data = { title: "Tau student signup"
                    },
             newUser;
@@ -61,7 +61,7 @@ module.exports = function(app) {
         } else {
             data.message = "email does not belong to a student for this course";
         }
-        res.render('signup', data)
+        res.render('auth/signup', data)
     });
 
 };

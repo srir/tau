@@ -48,7 +48,6 @@ module.exports = function(app) {
         });
     });
 
-
   app.post('/api/user/:userid/course', //authUtils.ensureAuthenticated,
     function(req, res) {
       var c = new m.Course(),
