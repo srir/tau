@@ -18,10 +18,10 @@ h1 {
 a {
   color: #1777a4;
   text-decoration: none;
-  -o-transition: all 0.1s linear;
-  -moz-transition: all 0.1s linear;
-  -webkit-transition: all 0.1s linear;
-  transition: all 0.1s linear;
+  -o-transition: background-color 0.1s linear, color 0.1s linear;
+  -moz-transition: background-color 0.1s linear, color 0.1s linear;
+  -webkit-transition: background-color 0.1s linear, color 0.1s linear;
+  transition: background-color 0.1s linear, color 0.1s linear;
 }
 
 img {
@@ -113,8 +113,10 @@ ul {
   float: left;
   font-size: 13px;
   padding-right: 5px;
+  position: relative;
   text-align: right;
   width: 24px;
+  z-index: 1;
 }
 
 #code dd {
@@ -143,19 +145,22 @@ ul {
 }
 
 #code .commentExpand {
-  background: url('/images/icons.png');
+  background: #dc9917;
+  border-radius: 0 2px 2px 0;
+  color: #ddd;
   display: block;
-  height: 0;
-  overflow: hidden;
-  padding-top: 17px;
+  font-size: 18px;
+  height: 17px;
   position: absolute;
-  right: -25px;
-  top: 0;
+  right: -17px;
+  text-align: center;
+  top: 1px;
   width: 17px;
 }
 
 #code .commentExpand:hover {
-  background-position: 0 -17px;
+  color: #fff;
+  text-decoration: none;
 }
 
 #code dd.comment {
