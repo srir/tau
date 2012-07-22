@@ -92,13 +92,19 @@ module.exports = function(app) {
                  });
   });
 
-  app.get('/api/user/:userid/course/:courseid/assignments/:assignid', //authUtils.ensureAuthenticated,
+  app.get('/api/user/:userid/course/:courseid/assignments/:assignslug', //authUtils.ensureAuthenticated,
     function(req, res) {
-      m.Assignment.findById(req.params.assignid).populate('files').exec(
+      m.Assignment.findOne({ user: req.params.userid,
+                          course: req.params.courseid,
+                          slug: req.params.assignslug
+                        }).populate('files').exec(
         function(err, assignment){
+          console.log(assignment.files);
+          console.log(assignment);
           if(!err){
             if(assignment){
-              files = _.map(assignment.files,
+              console.log(assignment.files);
+              var files = _.map(assignment.files,
                 function(file){
                   return {name: file.name,
                           timestamp: file.timestamp,
@@ -145,6 +151,80 @@ module.exports = function(app) {
 
     });
 
+  app.post('/api/course/:courseid/assignments', //authUtils.ensureAuthenticated,
+    function(req, res) {
+      m.Course.findById(req.params.courseid, function(err, course){
+        if(!err){
+          if(course){
+            course.assignments.push(req.body.assignment);
+            course.save(function(err){
+              if(!err){
+                res.send(ok({assignment: req.body.assignment}));
+              }else{
+                console.log(err);
+              }
+            });
+          }else{
+            res.send(notok("Course not found"));
+          }
+        }else{
+          console.log(err);
+        }
+      });
+    });
+
+  app.get('/api/course/:courseid/users', //authUtils.ensureAuthenticated,
+    function(req, res) {
+      m.Course.findById(req.params.courseid).populate('staff').populate(
+        'students').exec(function(err, course){
+          if(!err){
+            if(course){
+              var users = course.staff.concat(course.students)
+              res.send(ok({users: users}));
+            }else{
+              res.send(notok("Course not found"));
+            }
+          }else{
+            console.log(err);
+          }
+        });
+    });
+
+  app.post('/api/course/:courseid/users', //authUtils.ensureAuthenticated,
+    function(req, res) {
+      m.Course.findById(req.params.courseid, function(err, course){
+        if(!err){
+          if(course){
+            if(req.body.type = 'staff'){
+              course.staff.push(req.body.userid);
+              course.save(function(err){
+                if(!err){
+                  res.send(ok({user: req.body.userid}));
+                }else{
+                  console.log(err);
+                }
+              });
+            }else if(req.body.type = 'student'){
+              course.students.push(req.body.userid);
+              course.save(function(err){
+                if(!err){
+                  res.send(ok({user: req.body.userid}));
+                }else{
+                  console.log(err);
+                }
+              });
+            }else{
+              res.send(notok("Invalid user type"));
+            }
+            res.send(ok({user: req.body.userid}));
+          }else{
+            res.send(notok("Course not found"));
+          }
+        }else{
+          console.log(err);
+        }
+      });
+    });
 
   app.get('/api/file/:fileid/comments', //authUtils.ensureAuthenticated,
     function(req, res) {
