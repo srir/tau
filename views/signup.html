@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <h1>Student Signup</h1>
+    <p>{{message}}</p>
+    <form method="POST" action="/signup">
+      <fieldset><legend>Login</legend>
+        <input type="hidden" id="hash" name="hash" value="{{hash}}">
+        <div>
+          <label for="email">School Email:</label>
+          <input type="text" id="email" name="email">
+        </div>
+        <div>
+          <label for="course">Course Number:</label>
+          <input type="text" id="course" name="course">
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password">
+        </div>
+        <div>
+          <label for="confirm">Confirm Password:</label>
+          <input type="password" id="confirm" name="confirm">
+        </div>
+        <div>
+          <input type="submit" name="submit" id="submit" value="login">
+        </div>
+    </form>
+  </body>
+</html>
