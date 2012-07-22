@@ -14,7 +14,7 @@ module.exports = function(app) {
 
   app.post('/auth/login',
     passport.authenticate('local', {
-      failureRedirect: '/login',
+      failureRedirect: '/auth/login',
       failureFlash: "Invalid Credentials"
     }),
     function (req, res) {
@@ -27,7 +27,7 @@ module.exports = function(app) {
     res.render('auth/logout', data);
   });
 
-  app.get('/auth/account', authUtil.ensureAuthenticated, function(req, res) {
+  app.get('/account', authUtil.ensureAuthenticated, function(req, res) {
     var data = {
       title: "Tau account",
       user: req.user

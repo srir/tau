@@ -1,9 +1,7 @@
-<!doctype html>
-<html>
-  <head>
-    <title>{{title}}</title>
-  </head>
-  <body>
+{{#partial "content"}}
+    <div class="contentHeader">
+      <h2>Login</h2>
+    </div>
     <p>{{message}}</p>
     <form method="POST" action="/auth/login">
       <fieldset><legend>Login</legend>
@@ -19,5 +17,6 @@
           <input type="submit" name="submit" id="submit" value="login">
         </div>
     </form>
-  </body>
-</html>
+{{/partial}}
+
+{{> base }}
