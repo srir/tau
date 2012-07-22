@@ -11,7 +11,7 @@ module.exports = function(app) {
           return {status: "Failure", message: d};
       };
 
-  app.get('/api/user/:userid/course/:courseid', //authUtils.ensureAuthenticated,
+  app.get('/api/user/:userid/course/:courseid', authUtils.ensureAuthenticated,
     function(req, res) {
       m.Course.findById(req.params.courseid).exec(function (err, doc) {
         if(!err) {
@@ -31,7 +31,7 @@ module.exports = function(app) {
       });
     });
 
-  app.get('/api/user/:userid/course', //authUtils.ensureAuthenticated,
+  app.get('/api/user/:userid/course', authUtils.ensureAuthenticated,
     function(req, res) {
       m.Course.find({}).or([{staff: req.params.userid},
                    {students: req.params.userid}]).exec(
@@ -48,7 +48,7 @@ module.exports = function(app) {
         });
     });
 
-  app.post('/api/user/:userid/course', //authUtils.ensureAuthenticated,
+  app.post('/api/user/:userid/course', authUtils.ensureAuthenticated,
     function(req, res) {
       var c = new m.Course(),
           u = {'_id':req.params.userid};// = req.user;
@@ -67,7 +67,7 @@ module.exports = function(app) {
 
 
   app.get('/api/user/:userid/course/:courseid/assignments',
-          //authUtils.ensureAuthenticated,
+          authUtils.ensureAuthenticated,
          function(req, res) {
              console.log(req.params);
              // if(req.params.userid != req.user._id) {
@@ -91,7 +91,8 @@ module.exports = function(app) {
                  });
   });
 
-  app.get('/api/user/:userid/course/:courseid/assignments/:assignslug', //authUtils.ensureAuthenticated,
+  app.get('/api/user/:userid/course/:courseid/assignments/:assignslug',
+          authUtils.ensureAuthenticated,
     function(req, res) {
       m.Assignment.findOne({ user: req.params.userid,
                           course: req.params.courseid,
@@ -120,7 +121,7 @@ module.exports = function(app) {
     });
 
   app.get('/api/course/:courseid/assignments/:assignslug',
-         //authUtils.ensureAuthenticated,
+         authUtils.ensureAuthenticated,
           function(req, res) {
               m.Course.findById(req.params.courseid).populate('students')
               .exec(function(err, course) {
@@ -152,7 +153,7 @@ module.exports = function(app) {
 
     });
 
-  app.post('/api/course/:courseid/assignments', //authUtils.ensureAuthenticated,
+  app.post('/api/course/:courseid/assignments', authUtils.ensureAuthenticated,
     function(req, res) {
       m.Course.findById(req.params.courseid, function(err, course){
         if(!err){
@@ -226,7 +227,7 @@ module.exports = function(app) {
       });
     });
 
-  app.get('/api/file/:fileid/comments', //authUtils.ensureAuthenticated,
+  app.get('/api/file/:fileid/comments', authUtils.ensureAuthenticated,
     function(req, res) {
       m.File.findById(req.params.fileid).populate('comments').exec(
         function(err, file){
@@ -242,7 +243,7 @@ module.exports = function(app) {
         });
     });
 
-  app.post('/api/file/:fileid/comments', //authUtils.ensureAuthenticated,
+  app.post('/api/file/:fileid/comments', authUtils.ensureAuthenticated,
     function(req, res) {
       m.File.findById(req.params.fileid,
         function(err, file){
