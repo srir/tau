@@ -93,7 +93,7 @@ module.exports = function(app) {
       res.send("OK");
   });
 
-  app.get('/', function(req, res) {
+  app.get('/', function(req, res, next) {
     if (req.user) {
       var userid = req.user._id;
       models.Course
