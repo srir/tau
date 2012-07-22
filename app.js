@@ -11,7 +11,7 @@ var application_root = __dirname,
 require('./viewUtil');
 
 // var drl = new models.User();
-// drl.username = "Dr. Dan";
+// drl.name = "Dr. Dan";
 // drl.email = "drl@cs.cmu.edu";
 // drl.password = "root";
 // drl.save(function (err) { console.log(err); });
@@ -56,7 +56,6 @@ app.configure(function(){
 
 app.get('/', function(req, res) {
   models.User.find(function(err, users) {
-    console.log(users);
     res.render('index', {
       title: "TAU HERPDERP",
       users: users
@@ -70,29 +69,15 @@ app.get('/review', function(req, res) {
 
 app.get('/login', function(req, res){
     var data = { title: "Tau login",
-                 user: req.user,
                  message: req.flash('error')
                };
   res.render('login', data);
 });
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login',
-                                                    failureFlash: true}),
+                                                    failureFlash: "Invalid Credentials"}),
   function (req, res) {
-    // var data = { title: "Tau login",
-    //              user: req.user,
-    //              message: req.flash('error')
-    //            };
-    // res.render('account', data);
     res.redirect('/account');
-});
-
-
-app.get('/account', ensureAuthenticated, function(req, res) {
-    var data = { title: "Tau account",
-                 user: req.user,
-               }
-  res.render('account', data);
 });
 
 app.get('/logout', function(req, res){
@@ -101,6 +86,14 @@ app.get('/logout', function(req, res){
   req.logout();
   res.render('logout', data);
 });
+
+app.get('/account', ensureAuthenticated, function(req, res) {
+    var data = { title: "Tau account",
+                 user: req.user,
+               }
+    res.render('account', data);
+});
+
 
 //login decorators
 function ensureAuthenticated(req, res, next) {
