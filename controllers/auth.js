@@ -3,7 +3,6 @@ module.exports = function(app) {
       models    = require('../models'),
     authUtil    = require('../authUtil');
 
-
   app.get('/login', function(req, res){
     var data = {
       title: "Tau login",
