@@ -23,7 +23,7 @@ module.exports = (function () {
 
   var FileSchema = new Schema({
     name:       { type: String, required: true },
-    slug:       { type: String, unique: true },
+    slug:       { type: String },
     path:       { type: String, required: true },
     timestamp:  { type: Date, required: true },
     comments:   [{ type: ObjectId, ref: 'Comment' }]
@@ -40,8 +40,8 @@ module.exports = (function () {
   models.Course = mongoose.model('Course', CourseSchema);
 
   var AssignmentSchema = new Schema({
-    name:       { type: String, required: true },
-    slug:       { type: String, required: true},
+    name:       { type: String },
+    slug:       { type: String },
     course:     { type: ObjectId, ref: 'Course', required: true },
     user:       { type: ObjectId, ref: 'User', required: true },
     files:      [{ type: ObjectId, ref: 'File' }]
