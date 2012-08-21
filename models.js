@@ -8,7 +8,7 @@ module.exports = (function () {
     name:         String,
     password:     { type: String, required: true },
     email:        { type: String, required: true, lowercase: true, trim: true },
-    assignments:  [{ type: ObjectId, ref: 'Assignment' }],
+    handins:      [{ type: ObjectId, ref: 'Handin' }]
   });
   models.User = mongoose.model('User', UserSchema);
 
@@ -17,12 +17,13 @@ module.exports = (function () {
     user:       { type: ObjectId, ref: 'User', required: true } ,
     timestamp:  { type: Date, required: true },
     startLine:  { type: Number, required: true },
-    endLine:    { type: Number, required: true },
+    endLine:    { type: Number, required: true }
   });
   models.Comment = mongoose.model('Comment', CommentSchema);
 
   var FileSchema = new Schema({
     name:       { type: String, required: true },
+    handin:     { type: ObjectId, ref: 'Handin' },
     slug:       { type: String },
     path:       { type: String, required: true },
     timestamp:  { type: Date, required: true },
@@ -34,8 +35,7 @@ module.exports = (function () {
     name:         { type: String, required: true },
     slug:         { type: String, unique: true },
     staff:        [{ type: ObjectId, ref: 'User', required: true }],
-    students:     [{ type: ObjectId, ref: 'User' }],
-    assignments:  [String]
+    students:     [{ type: ObjectId, ref: 'User' }]
   });
   models.Course = mongoose.model('Course', CourseSchema);
 
@@ -43,10 +43,14 @@ module.exports = (function () {
     name:       { type: String },
     slug:       { type: String },
     course:     { type: ObjectId, ref: 'Course', required: true },
-    user:       { type: ObjectId, ref: 'User', required: true },
-    files:      [{ type: ObjectId, ref: 'File' }]
   });
   models.Assignment = mongoose.model('Assignment', AssignmentSchema);
+
+  var HandinSchema = new Schema({
+    user:       { type: ObjectId, ref: 'User', required: true },
+    assignment: { type: ObjectId, ref: 'Assignment', required: true },
+  });
+  models.Handin = mongoose.model('Handin', HandinSchema);
 
   return models;
 })();
